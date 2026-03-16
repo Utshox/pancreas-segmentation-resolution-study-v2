@@ -78,9 +78,10 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 - [x] Create training script and SLURM submission (`submit_train_transformer.sh`).
 - [ ] Train Transformer Baseline on SOTA patches - **Running (Job 210615)**.
 - [x] Create `env_nnunet.sh` and set up standard `nnUNet_raw`, `nnUNet_preprocessed`, `nnUNet_results` folders.
-- [ ] Convert MSD Task07 to nnU-Net v2 and run `nnUNetv2_plan_and_preprocess` - **Running (Job 210616)**.
+- [x] Convert MSD Task07 to nnU-Net v2 and run `nnUNetv2_plan_and_preprocess` - **Completed**.
+- [ ] Train nnU-Net Baseline (`3d_fullres` configuration) - **Pending (Job 210621)**.
 - [ ] Compare inference results against SOTA CNN.
 
-**Status:** Transformer Baseline model is currently training on the GPU cluster. nnU-Net dataset conversion and preprocessing is running on the main partition.
+**Status:** Transformer Baseline model is currently training on the GPU cluster (Epoch 27+). nnU-Net dataset conversion and preprocessing is COMPLETE. The official nnU-Net training job has been queued.
 
 ---

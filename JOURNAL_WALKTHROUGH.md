@@ -37,8 +37,9 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 | Ablation Preprocessing | ✅ Success | 256 and 128 sets generated |
 | 256x256 Training | ✅ Completed | Final Val IoU: 0.3113 |
 | 128x128 Training | ✅ Completed | Final Val IoU: 0.3036 |
-| Transformer Training | 🔄 Running | Epoch 1+ |
-| nnU-Net Preprocessing | 🔄 Running | Extracting fingerprints... |
+| Transformer Training | 🔄 Running | Epoch 27+ |
+| nnU-Net Preprocessing | ✅ Completed | nnUNetPlans.json Generated |
+| nnU-Net Training | ⏳ Queued | Waiting for GPU |
 | Visualization System | ✅ Active | Final Plots Ready |
 
 
