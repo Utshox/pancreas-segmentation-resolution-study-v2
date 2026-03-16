@@ -11,10 +11,16 @@ The ultimate goal is to transition this research into a high-impact journal pape
 - **HPC Environment:** VU MIF HPC (Lustre Scratch). 
 - **GPU Setup:** Use `submit_verify_gpu_v3.sh` logic (linking `nvidia` libs from `venv`). **Critical: Use HU Windowing [-125, 275]**.
 
-## 🧠 Strategic Knowledge
+## 🧠 Strategic Knowledge & Q1 Journal Principles
 1. **Resolution vs. Complexity:** Our results prove that high-resolution 256x256 patches beat complex 3D architectures (UNETR, V-Net) that require downsampling.
 2. **SSL Preference:** Mean Teacher is the preferred SSL method over FixMatch for this soft-tissue task.
 3. **Data Path:** `/scratch/lustre/home/kayi9958/ish/data_val` contains the validation NIfTI files.
+
+### 🌟 Core Principles for the Journal Manuscript (ALWAYS Keep These in Mind)
+When drafting the paper or evaluating results, future AI sessions MUST adhere to these three principles to ensure Q1/Q2 journal acceptance:
+*   **Statistical Significance:** Never just report that score A is higher than score B. Always aim to run a paired t-test or Wilcoxon signed-rank test to report a p-value (e.g., $p < 0.05$) to prove the gain isn't luck.
+*   **Acknowledge Trade-offs:** A mature paper admits its limitations. For example, our patch-based approach preserves resolution but increases training complexity and inference time (due to sliding windows). Acknowledging this builds credibility.
+*   **Visual Proof is Everything:** Medical reviewers rely heavily on visual evidence. Always prioritize generating and discussing high-quality, multi-case comparison heatmaps (Ground Truth vs. Prediction) to accompany quantitative tables.
 
 ## 🛤️ Future Work Directions
 - **Ablation Studies:** Quantify the exact impact of patch size and overlap.
