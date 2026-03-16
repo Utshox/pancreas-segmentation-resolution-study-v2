@@ -1,0 +1,8 @@
+Starting Verification Inference on GPU using Singularity...
+Mon Mar 16 14:03:30 EET 2026
+Traceback (most recent call last):
+  File "ishFinal/baseline/code/sliding_window_inference.py", line 10, in <module>
+    import nibabel as nib
+ModuleNotFoundError: No module named 'nibabel'
+Inference Complete!
+Mon Mar 16 14:03:32 EET 2026
