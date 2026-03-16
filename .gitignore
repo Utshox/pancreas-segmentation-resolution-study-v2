@@ -19,3 +19,13 @@ __pycache__/
 # Large models (Standard git limit is 100MB)
 # model_patch_best.h5 is 89MB, so it can be pushed, but we can ignore others
 models/checkpoint_*
+baseline/models/ablation_*/*.h5
+baseline/models/transformer_baseline/*.h5
+
+# nnU-Net directories
+nnUNet_raw/
+nnUNet_preprocessed/
+nnUNet_results/
+
+# Ablation data
+ablation_data/

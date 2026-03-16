@@ -25,3 +25,5 @@ The ultimate goal is to transition this research into a high-impact journal pape
 - **Always verify GPU** before running inference/training.
 - **Maintain Unique Logs:** When running `sliding_window_inference.py`, use the `--exp_name` flag to avoid overwriting verification history.
 - **Version Control:** All "Gold Standard" assets are in `ishFinal/`.
+- **Continuity & Documentation:** Every session MUST proactively update `RESEARCH_LOG.md` (for raw data/status) and `JOURNAL_WALKTHROUGH.md` (for the narrative story).
+- **Journal Writing:** A formal LaTeX manuscript is located at `baseline/paper/journal_manuscript.tex`. As new experiments (like Transformer or nnU-Net baselines) finish, YOU MUST update the `Methodology` and `Results` sections of this `.tex` file using a high-quality academic tone (avoiding generic "AI styling").

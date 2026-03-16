@@ -1,0 +1,8 @@
+Inference Run: hu_champion_20260316_182155
+Model: baseline/models/model_patch_best.h5
+Average Dice: 0.8147
+------------------------------
+pancreas_001: 0.9018
+pancreas_004: 0.8448
+pancreas_005: 0.6963
+pancreas_006: 0.8159
