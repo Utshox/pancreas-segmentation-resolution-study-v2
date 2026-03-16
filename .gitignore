@@ -1,0 +1,21 @@
+# Data
+data_val/
+preprocessed_v5_patches/
+*.nii.gz
+*.npy
+
+# Environment
+venv_pancreas/
+__pycache__/
+*.pyc
+
+# Logs and Temps
+*.log
+*.out
+*.err
+.ipynb_checkpoints/
+.gemini/
+
+# Large models (Standard git limit is 100MB)
+# model_patch_best.h5 is 89MB, so it can be pushed, but we can ignore others
+models/checkpoint_*
