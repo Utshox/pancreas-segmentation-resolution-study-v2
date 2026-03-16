@@ -27,3 +27,7 @@ The ultimate goal is to transition this research into a high-impact journal pape
 - **Version Control:** All "Gold Standard" assets are in `ishFinal/`.
 - **Continuity & Documentation:** Every session MUST proactively update `RESEARCH_LOG.md` (for raw data/status) and `JOURNAL_WALKTHROUGH.md` (for the narrative story).
 - **Journal Writing:** A formal LaTeX manuscript is located at `baseline/paper/journal_manuscript.tex`. As new experiments (like Transformer or nnU-Net baselines) finish, YOU MUST update the `Methodology` and `Results` sections of this `.tex` file using a high-quality academic tone (avoiding generic "AI styling").
+
+## 🚀 Next Session Start (March 17+)
+1.  **Check Transformer:** Job `210615` should be complete. Extract its final validation IoU/Dice, add it to `RESEARCH_LOG.md`, update the `ablation_iou_comparison.png` to include it, and write the results into the LaTeX manuscript.
+2.  **Check nnU-Net:** Job `210621` is a long-running PyTorch training job. Check its status (`squeue` and logs). If finished, extract its final metrics to see if it beat our 0.815 SOTA. Update logs and the paper accordingly.
