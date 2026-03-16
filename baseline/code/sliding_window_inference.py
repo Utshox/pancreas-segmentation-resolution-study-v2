@@ -123,8 +123,10 @@ def main():
         vol_img = nii_img.get_fdata()
         vol_lbl = nii_lbl.get_fdata()
         
-        vol_img = np.clip(vol_img, -100, 240)
-        vol_img = (vol_img - (-100)) / (240 - (-100))
+        # CRITICAL: Use TRAINING preprocessing [-125, 275] for v6 SOTA
+        HU_MIN, HU_MAX = -125, 275
+        vol_img = np.clip(vol_img, HU_MIN, HU_MAX)
+        vol_img = (vol_img - HU_MIN) / (HU_MAX - HU_MIN)
         vol_img = np.clip(vol_img, 0, 1)
         
         # Determine orientation

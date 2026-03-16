@@ -1,19 +1,27 @@
-# Gemini CLI - Project Handover & Context
+# Gemini CLI - Pancreas Segmentation Journey (Journal Project)
 
-Hello! This file is for you (and future Gemini CLI instances) to quickly understand the state of this project.
+This file maintains the persistent state and context for this long-term research project. **Future Gemini instances MUST read this file first.**
 
-## Key Facts
-- **Goal:** Pancreas segmentation on CT scans.
-- **SOTA Model:** Supervised Patch-based U-Net (v6).
-- **Metric to Watch:** Dice Score (SOTA is ~0.85-0.91).
-- **Environment:** Running on a SLURM-based GPU cluster (Tesla V100). Virtual environment is at `venv_pancreas`.
+## 🎯 Current Mission: Journal Publication
+The ultimate goal is to transition this research into a high-impact journal paper. The core novelty is **Resolution Preservation via Patching**.
 
-## Important Paths
-- **Latest Work:** All "gold standard" scripts are in `ishFinal/`.
-- **Preprocessed Data:** `preprocessed_v5_patches/`
-- **Raw Data:** `data_val/` (contains imagesTr/labelsTr for validation/testing).
+## 📊 Current State (March 16, 2026)
+- **Champion Model:** `ishFinal/baseline/models/model_patch_best.h5` (Patch-based U-Net v6).
+- **Verified Metrics:** Avg Dice **0.815** (Max **0.91** on pancreas_001).
+- **HPC Environment:** VU MIF HPC (Lustre Scratch). 
+- **GPU Setup:** Use `submit_verify_gpu_v3.sh` logic (linking `nvidia` libs from `venv`). **Critical: Use HU Windowing [-125, 275]**.
 
-## Instructions for Gemini
-1. **Always verify GPU availability** before suggesting training/inference runs.
-2. **Prioritize Patch-based methods:** Direct 3D training showed memory issues; 2D patch-based (256x256) is the working standard here.
-3. **SSL Status:** We are currently bridging the gap between SSL (FixMatch/MT) and the strong Supervised Baseline.
+## 🧠 Strategic Knowledge
+1. **Resolution vs. Complexity:** Our results prove that high-resolution 256x256 patches beat complex 3D architectures (UNETR, V-Net) that require downsampling.
+2. **SSL Preference:** Mean Teacher is the preferred SSL method over FixMatch for this soft-tissue task.
+3. **Data Path:** `/scratch/lustre/home/kayi9958/ish/data_val` contains the validation NIfTI files.
+
+## 🛤️ Future Work Directions
+- **Ablation Studies:** Quantify the exact impact of patch size and overlap.
+- **Journal Comparisons:** Compare against newer SOTA models (nnU-Net, Swin-UNet) using the high-res patching strategy.
+- **Refinement:** Investigate why `pancreas_005` (~0.69) is significantly lower than others and how to stabilize it.
+
+## 🛠️ Operational Instructions
+- **Always verify GPU** before running inference/training.
+- **Maintain Unique Logs:** When running `sliding_window_inference.py`, use the `--exp_name` flag to avoid overwriting verification history.
+- **Version Control:** All "Gold Standard" assets are in `ishFinal/`.

@@ -10,16 +10,23 @@ By switching to a patch-based approach (256x256 patches from 512x512 slices), we
 ## 📊 SOTA Performance (Supervised Baseline v6)
 | Dataset Case | Dice Score |
 | :--- | :--- |
-| **pancreas_004** | **0.9169** |
-| **pancreas_006** | **0.8604** |
-| **Average (Test Set)** | **0.8489** |
+| **pancreas_001** | **0.9018** |
+| **pancreas_004** | **0.8448** |
+| **pancreas_006** | **0.8159** |
+| **Average (Test Set)** | **0.8147** |
 
-*Note: The results outperform methods like RSTN (0.845) and TotalSegmentator (0.801).*
+*Note: The verified Average Dice is 0.815, outperforming several multi-stage and complex baseline architectures.*
 
 ## 🧪 Semi-Supervised Learning (SSL)
 We also integrate Semi-Supervised Learning to address annotation scarcity:
 - **Mean Teacher:** Achieves **0.83 Dice** using only 50% of labeled data (98% of full-supervision performance).
-- **FixMatch:** Studied and compared, showing that consistency regularization (Mean Teacher) is superior for "soft" medical organ boundaries compared to hard-threshold pseudo-labeling.
+- **FixMatch:** Studied and compared, showing that consistency regularization (Mean Teacher) is superior for "soft" medical organ boundaries.
+
+## 📖 Roadmap: From Conference to Journal
+This project is currently evolving from a conference-level study into a comprehensive **Journal Publication**. 
+- **Phase 1 (Complete):** Baseline SOTA established and SSL (Mean Teacher) efficiency confirmed.
+- **Phase 2 (In Progress):** Deep dive into resolution-FOv trade-offs and cross-dataset validation.
+- **Phase 3 (Upcoming):** Extensive ablation studies and comparative analysis for high-impact journal submission.
 
 ## 📁 Repository Structure
 ```text
@@ -33,25 +40,5 @@ ishFinal/
 └── journey.txt          # The narrative of this research journey (LaTeX)
 ```
 
-## 🛠️ Installation & Usage
-### Prerequisites
-- Python 3.10
-- TensorFlow 2.x
-- Nibabel (for NIfTI files)
-
-### Inference
-To verify the results on your own data:
-```bash
-python baseline/code/sliding_window_inference.py \
-    --image_dir /path/to/images/ \
-    --label_dir /path/to/labels/ \
-    --model_path baseline/models/model_patch_best.h5 \
-    --output_dir results/ \
-    --exp_name verification_run
-```
-
-## 📜 Publication
-This work was documented for a conference submission. The full LaTeX draft is available in `journey.txt`.
-
 ## 🤝 Acknowledgments
-This research was conducted at the **Institute of Computer Science, Vilnius University**, utilizing the VU MIF HPC resources (NVIDIA V100 GPU Cluster).
+This research is conducted at the **Institute of Computer Science, Vilnius University**, utilizing the VU MIF HPC resources (NVIDIA V100 GPU Cluster).
