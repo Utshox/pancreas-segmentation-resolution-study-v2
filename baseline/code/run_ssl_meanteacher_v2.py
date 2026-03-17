@@ -11,7 +11,7 @@ from pathlib import Path
 
 # --- Configuration ---
 IMG_SIZE = 256
-BATCH_SIZE = 16 # (8 labeled + 8 unlabeled)
+BATCH_SIZE = 8 # (4 labeled + 4 unlabeled)
 EPOCHS = 100
 LR = 1e-4
 ALPHA = 0.999 # EMA decay for teacher

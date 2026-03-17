@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 # --- Configuration ---
-BATCH_SIZE = 16
+BATCH_SIZE = 8
 EPOCHS = 100
 LR = 1e-4
 
