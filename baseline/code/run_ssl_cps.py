@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 # --- Configuration ---
-BATCH_SIZE = 8
+BATCH_SIZE = 16
 EPOCHS = 100
 LR = 1e-4
 
@@ -109,11 +109,17 @@ class CPSTrainer(models.Model):
         return {m.name: m.result() for m in self.metrics}
 
 # --- Data Generator ---
+
+def load_and_concat(file_list):
+    arrs = [np.load(f) for f in file_list if os.path.exists(f)]
+    if not arrs: return np.array([])
+    return np.concatenate(arrs, axis=0)
+
 class DualGenerator(tf.keras.utils.Sequence):
-    def __init__(self, x_l_files, y_l_files, x_u_files, batch_size=16):
-        self.x_l = x_l_files
-        self.y_l = y_l_files
-        self.x_u = x_u_files
+    def __init__(self, x_l, y_l, x_u, batch_size=16):
+        self.x_l = x_l
+        self.y_l = y_l
+        self.x_u = x_u
         self.batch_size = batch_size
         self.half_bs = batch_size // 2
 
@@ -122,18 +128,17 @@ class DualGenerator(tf.keras.utils.Sequence):
 
     def __getitem__(self, idx):
         inds_l = np.random.choice(len(self.x_l), self.half_bs)
-        batch_xl = np.concatenate([np.load(self.x_l[i]) for i in inds_l], axis=0)
-        batch_yl = np.concatenate([np.load(self.y_l[i]) for i in inds_l], axis=0)
+        batch_xl = self.x_l[inds_l]
+        batch_yl = self.y_l[inds_l]
         
         inds_u = np.random.choice(len(self.x_u), self.half_bs)
-        batch_xu = np.concatenate([np.load(self.x_u[i]) for i in inds_u], axis=0)
+        batch_xu = self.x_u[inds_u]
         
         batch_xl = np.expand_dims(batch_xl, -1).astype(np.float32)
         batch_yl = np.expand_dims(batch_yl, -1).astype(np.float32)
         batch_xu = np.expand_dims(batch_xu, -1).astype(np.float32)
         
         return (batch_xl, batch_yl), batch_xu
-
 class EpochCallback(tf.keras.callbacks.Callback):
     def on_epoch_begin(self, epoch, logs=None):
         self.model.epoch_tracker.assign(epoch)
@@ -160,7 +165,10 @@ def main():
     X_val = np.expand_dims(X_val, -1).astype(np.float32)
     Y_val = np.expand_dims(Y_val, -1).astype(np.float32)
     
-    train_gen = DualGenerator(xl_files, yl_files, xu_files, BATCH_SIZE)
+    X_l = load_and_concat(xl_files)
+    Y_l = load_and_concat(yl_files)
+    X_u = load_and_concat(xu_files)
+    train_gen = DualGenerator(X_l, Y_l, X_u, BATCH_SIZE)
     
     model_a = get_unet()
     model_b = get_unet() # Different initialization
