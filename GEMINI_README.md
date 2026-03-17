@@ -35,10 +35,9 @@ When drafting the paper or evaluating results, future AI sessions MUST adhere to
 - **Journal Writing:** A formal LaTeX manuscript is located at `baseline/paper/journal_manuscript.tex`. As new experiments (like Transformer or nnU-Net baselines) finish, YOU MUST update the `Methodology` and `Results` sections of this `.tex` file using a high-quality academic tone (avoiding generic "AI styling").
 
 ## 🚀 Next Session Start
-1.  **Check nnU-Net:** Job `210621` (Phase 1). Check its status (`squeue` and logs in `nnUNet_results/`). If finished, extract its final metrics to confirm it hits ~0.83 Dice. Update logs and the paper accordingly.
-2.  **Check Phase 2 SSL (10% Ratio):** Jobs `210690` (MT), `210691` (CPS), and `210692` (UA-MT) were submitted for the 10% labeled data split.
+1.  **Check Phase 2 SSL (25% and 50% Ratios):** Jobs `210717` through `210722` were submitted for the remaining data splits.
     *   Verify their status via `squeue` or `sacct`.
-    *   If complete, extract their final Validation IoU/Dice from `baseline/models/ssl_*/log.csv`.
-    *   Log these results in `RESEARCH_LOG.md` and draft them into the Annotation Efficiency section of `baseline/paper/journal_manuscript.tex`.
-    *   If successful, prepare and submit the scripts for the 25% and 50% labeled ratios.
-3.  **HPC Quota Warning:** We are limited to ~80 monthly GPU hours. Ensure any new `sbatch` jobs have their `--time` limit set conservatively (e.g., `12:00:00` for SSL runs) to prevent `AssocGrpGRESMinutes` blocking. Review HPC docs if needed: [https://mif.vu.lt/itwiki/en:hpc](https://mif.vu.lt/itwiki/en:hpc)
+    *   If complete, extract their final Validation IoU/Dice from `baseline/models/ssl_*/log.csv` (Note: UA-MT 10% is finishing under job 210704).
+    *   Log all these final results in `RESEARCH_LOG.md` and insert them into the "Annotation Efficiency: The SSL Break-Even Point" section of `baseline/paper/journal_manuscript.tex`.
+    *   Begin drafting Phase 3 (Cross-Dataset Validation) or compiling final result tables.
+2.  **HPC Quota Warning:** We are limited to ~80 monthly GPU hours. We dropped the SSL batch time to 6h to safely fit inside the remaining ~60h quota. Ensure any new `sbatch` jobs have their `--time` limit set conservatively. Review HPC docs if needed: [https://mif.vu.lt/itwiki/en:hpc](https://mif.vu.lt/itwiki/en:hpc)
