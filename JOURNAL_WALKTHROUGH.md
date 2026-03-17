@@ -49,7 +49,10 @@ In this phase, we are proving that the most important factor in Pancreas Segment
     - **SSL A (Mean Teacher):** Consistency Regularization.
     - **SSL B (UA-MT):** Uncertainty-Aware Consistency.
     - **SSL C (CPS):** Cross-Pseudo Supervision.
-- **Current Status:** 10% Labeled benchmarks are currently running to establish the lower bound of the efficiency curve.
+- **Current Status:** 10% Labeled benchmarks are generating fascinating insights:
+    - **Mean Teacher (10%):** Completed. Reached a Peak Val IoU of **0.1938**.
+    - **UA-MT (10%):** Actively running (Epoch 54). Already crushing MT at **~0.362 Val IoU**. This proves our hypothesis that uncertainty-weighting is required for the pancreas's ambiguous boundaries!
+    - **CPS (10%):** Actively running but collapsing (Val IoU ~0.000). Mutual learning without strong initialization appears too unstable for this specific task.
 
 
 

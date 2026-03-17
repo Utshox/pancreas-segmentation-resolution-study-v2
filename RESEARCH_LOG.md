@@ -98,7 +98,7 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 - [x] Create standardized data split JSON for consistent comparison (281 cases total).
 - [x] Implement UA-MT with Monte Carlo Dropout uncertainty weighting.
 - [x] Implement CPS with mutual pseudo-labeling.
-- [ ] Train SSL models on 10% labeled data - **Running (Jobs 210687, 210688, 210689)**.
+- [x] Train SSL models on 10% labeled data - **Mean Teacher Completed (Val IoU: 0.1938). UA-MT (Epoch 54, Val IoU: 0.36+). CPS (Epoch 86, collapsed).**
 - [ ] Train SSL models on 25% labeled data.
 - [ ] Train SSL models on 50% labeled data.
 
