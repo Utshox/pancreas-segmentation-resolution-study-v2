@@ -63,15 +63,16 @@ To isolate the effect of resolution versus architecture, we evaluated the follow
     \item \textbf{Patch-based SOTA (Our Method):} A standard 4-level U-Net trained on native-resolution $256 \times 256$ patches.
     \item \textbf{Ablation 256x256:} A standard U-Net trained on full CT slices downsampled to $256 \times 256$.
     \item \textbf{Ablation 128x128:} A standard U-Net trained on full CT slices downsampled to $128 \times 128$.
-    \item \textbf{Transformer Baseline:} A Vision Transformer U-Net (TransUNet style) trained on the native patches to evaluate the necessity of complex self-attention mechanisms.
+    \item \textbf{Transformer Baseline:} A Vision Transformer U-Net (TransUNet style) \cite{transunet} trained on the native patches to evaluate the necessity of complex self-attention mechanisms.
+    \item \textbf{nnU-Net Baseline:} The established medical image segmentation state-of-the-art framework \cite{nnunet}, utilizing a self-configuring 3D full-resolution architecture.
 \end{enumerate}
 
 \subsection{Semi-Supervised Learning (SSL) Framework}
 To address the clinical bottleneck of voxel-level annotation, we investigated the "break-even point" of data efficiency using three state-of-the-art SSL paradigms:
 \begin{enumerate}
-    \item \textbf{Mean Teacher (MT):} A consistency-regularization approach where a student model learns from the exponential moving average (EMA) of its own weights (the teacher). We enforce Mean Squared Error (MSE) consistency between their predictions on unlabeled data.
-    \item \textbf{Uncertainty-Aware Mean Teacher (UA-MT):} An extension of MT that utilizes Monte Carlo (MC) Dropout to estimate the teacher's epistemic uncertainty. The student is forced to learn only from regions where the teacher is highly confident, which is crucial for the ambiguous boundaries of the pancreas.
-    \item \textbf{Cross-Pseudo Supervision (CPS):} A mutual-learning approach where two identically structured networks with different initializations generate pseudo-labels to supervise each other.
+    \item \textbf{Mean Teacher (MT):} A consistency-regularization approach \cite{tarvainen2017mean} where a student model learns from the exponential moving average (EMA) of its own weights (the teacher). We enforce Mean Squared Error (MSE) consistency between their predictions on unlabeled data.
+    \item \textbf{Uncertainty-Aware Mean Teacher (UA-MT):} An extension of MT \cite{uamt} that utilizes Monte Carlo (MC) Dropout to estimate the teacher's epistemic uncertainty. The student is forced to learn only from regions where the teacher is highly confident, which is crucial for the ambiguous boundaries of the pancreas.
+    \item \textbf{Cross-Pseudo Supervision (CPS):} A mutual-learning approach \cite{cps} where two identically structured networks with different initializations generate pseudo-labels to supervise each other.
 \end{enumerate}
 We evaluated these methods using varying labeled data ratios (10\%, 25\%, and 50\%) against a fully supervised upper bound.
 
@@ -94,5 +95,8 @@ We also evaluated a Vision Transformer (ViT) architecture (TransUNet style) trai
 
 \section{Conclusion}
 [To be completed as Phase 1 finalizes.]
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
 
 \end{document}
