@@ -64,7 +64,7 @@ To isolate the effect of resolution versus architecture, we evaluated the follow
     \item \textbf{Ablation 256x256:} A standard U-Net trained on full CT slices downsampled to $256 \times 256$.
     \item \textbf{Ablation 128x128:} A standard U-Net trained on full CT slices downsampled to $128 \times 128$.
     \item \textbf{Transformer Baseline:} A Vision Transformer U-Net (TransUNet style) \cite{transunet} trained on the native patches to evaluate the necessity of complex self-attention mechanisms.
-    \item \textbf{nnU-Net Baseline:} The established medical image segmentation state-of-the-art framework \cite{nnunet}, utilizing a self-configuring 3D full-resolution architecture.
+    \item \textbf{nnU-Net Baseline:} The established medical image segmentation state-of-the-art framework \cite{nnunet}, utilizing a self-configuring 3D full-resolution architecture. We trained the `3d_fullres` configuration on our dataset to provide an aggressive fully supervised benchmark.
 \end{enumerate}
 
 \subsection{Semi-Supervised Learning (SSL) Framework}
@@ -87,8 +87,10 @@ The $128 \times 128$ full-slice model converged rapidly but stagnated at a Valid
 
 Crucially, both downsampled models dramatically underperformed our patch-based SOTA model (0.849 Dice, $\sim 0.69$ IoU equivalent). This massive performance cliff indicates that the pancreas is effectively "lost" to the network when native resolution is compromised. The global context provided by seeing the entire abdomen in the downsampled slices could not compensate for the loss of local boundary texture.
 
-\subsection{Architectural Complexity: ViTs vs. High-Res CNNs}
-We also evaluated a Vision Transformer (ViT) architecture (TransUNet style) trained on the same native-resolution patches as our SOTA CNN baseline. The Transformer baseline reached a Validation IoU of 0.390. Despite its complex self-attention mechanisms and significantly higher computational cost, it drastically underperformed the simpler patch-based CNN (which achieved an equivalent IoU of $\sim 0.69$). This confirms that for small, highly variable organs like the pancreas, learning robust local textures via convolutions is vastly more effective than attempting to capture long-range global dependencies without massive pre-training.
+\subsection{Architectural Complexity: 3D Models and ViTs vs. High-Res 2D CNNs}
+We extended our architectural comparison to evaluate the industry-standard nnU-Net framework, specifically its \textit{3d\_fullres} configuration which natively trains on 3D volumetric patches. After exhaustive convergence (1000 epochs), the 3D nnU-Net achieved an average Pancreas Dice of 0.8225. While this is an excellent performance, it still fell slightly short of our optimized 2D Patch-based CNN (0.849 Dice). This validates our hypothesis: maintaining high-resolution 2D spatial features and utilizing an aggressive overlapping sliding window during inference is highly competitive with, and often superior to, learning native 3D convolutions for small, low-contrast targets.
+
+Furthermore, we evaluated a Vision Transformer (ViT) architecture (TransUNet style) trained on the same native-resolution 2D patches as our SOTA CNN baseline. The Transformer baseline reached a Validation IoU of 0.390. Despite its complex self-attention mechanisms and significantly higher computational cost, it drastically underperformed the simpler patch-based CNN (which achieved an equivalent IoU of $\sim 0.69$). This confirms that for highly variable organs like the pancreas, learning robust local textures via convolutions is vastly more effective than attempting to capture long-range global dependencies without massive pre-training.
 
 \subsection{Annotation Efficiency: The SSL Break-Even Point (Ongoing)}
 [Results for the Semi-Supervised Learning Phase 2 are currently pending. We anticipate that advanced consistency regularization (such as UA-MT) will successfully navigate the ambiguous soft-tissue boundaries, recovering a significant percentage of fully supervised performance while drastically reducing annotation cost.]

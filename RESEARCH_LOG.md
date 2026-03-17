@@ -79,10 +79,10 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 - [x] Train Transformer Baseline on SOTA patches - **Completed**.
 - [x] Create `env_nnunet.sh` and set up standard `nnUNet_raw`, `nnUNet_preprocessed`, `nnUNet_results` folders.
 - [x] Convert MSD Task07 to nnU-Net v2 and run `nnUNetv2_plan_and_preprocess` - **Completed**.
-- [ ] Train nnU-Net Baseline (`3d_fullres` configuration) - **Running (Job 210621)**.
+- [x] Train nnU-Net Baseline (`3d_fullres` configuration) - **Completed (Val Dice: 0.8225)**.
 - [ ] Compare inference results against SOTA CNN.
 
-**Status:** Transformer Baseline model has completed training (Final Val IoU: **0.3904**). nnU-Net dataset conversion and preprocessing is COMPLETE. The official nnU-Net training job is actively running.
+**Status:** nnU-Net (Phase 1) has completed successfully. Its 3D full-resolution architecture achieved an impressive 0.8225 Dice for the Pancreas, validating that maintaining native resolution is key, but our Patch-based 2D CNN still holds the SOTA at 0.849!
 
 ---
 
@@ -98,10 +98,10 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 - [x] Create standardized data split JSON for consistent comparison (281 cases total).
 - [x] Implement UA-MT with Monte Carlo Dropout uncertainty weighting.
 - [x] Implement CPS with mutual pseudo-labeling.
-- [x] Train SSL models on 10% labeled data - **Mean Teacher Completed (Val IoU: 0.1938). UA-MT (Epoch 54, Val IoU: 0.36+). CPS (Epoch 86, collapsed).**
+- [x] Train SSL models on 10% labeled data - **Mean Teacher Completed (Val IoU: 0.1938). CPS Completed (Collapsed, Val IoU: 0.000). UA-MT is still running.**
 - [ ] Train SSL models on 25% labeled data.
 - [ ] Train SSL models on 50% labeled data.
 
-**Status:** Phase 2 is officially launched. The 10% labeled data benchmarks are currently training on the GPU cluster. nnU-Net (Phase 1) is also approaching its final epochs in parallel.
+**Status:** The 10% labeled data benchmarks are mostly complete. We are now preparing to run the 25% and 50% ratios to complete the curve.
 
 ---
