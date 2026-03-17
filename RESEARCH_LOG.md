@@ -8,7 +8,7 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 
 ### 🚀 Session Start: Initializing Phase 1
 **Objective:** Begin Comparative Benchmarking (SOTA vs. Complexity).
-**Baseline Status:** Patch-based U-Net v6 (`model_patch_best.h5`) | Verified Avg Dice: **0.815**.
+**Baseline Status:** Patch-based U-Net v6 (`model_patch_best.h5`) | Verified Avg Dice: **0.849**.
 **Key Targets:** 
 - SOTA Comparison (nnU-Net, Swin-UNet).
 - Resolution Ablation (512 vs 256 vs 128).
@@ -60,7 +60,7 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 **Final Observations (T+2h):**
 - **Ablation 128:** COMPLETED. Final Val IoU: **0.3036**. The extreme loss of resolution prevents the model from accurately segmenting the pancreas despite seeing the whole slice.
 - **Ablation 256:** COMPLETED. Final Val IoU: **0.3113**. 
-- **Comparison:** The 256x256 resolution barely outperformed the 128x128 resolution on validation, despite having 4x more pixels. Most importantly, both are dramatically lower than the native 512x512 patch-based SOTA (Avg Dice **0.815**). This proves that the critical spatial information for the pancreas is irreparably lost when the CT slice is downsampled.
+- **Comparison:** The 256x256 resolution barely outperformed the 128x128 resolution on validation, despite having 4x more pixels. Most importantly, both are dramatically lower than the native 512x512 patch-based SOTA (Avg Dice **0.849**). This proves that the critical spatial information for the pancreas is irreparably lost when the CT slice is downsampled.
 
 ---
 
@@ -76,12 +76,32 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 **Execution:**
 - [x] Implement Vision Transformer U-Net architecture.
 - [x] Create training script and SLURM submission (`submit_train_transformer.sh`).
-- [ ] Train Transformer Baseline on SOTA patches - **Running (Job 210615)**.
+- [x] Train Transformer Baseline on SOTA patches - **Completed**.
 - [x] Create `env_nnunet.sh` and set up standard `nnUNet_raw`, `nnUNet_preprocessed`, `nnUNet_results` folders.
 - [x] Convert MSD Task07 to nnU-Net v2 and run `nnUNetv2_plan_and_preprocess` - **Completed**.
-- [ ] Train nnU-Net Baseline (`3d_fullres` configuration) - **Pending (Job 210621)**.
+- [ ] Train nnU-Net Baseline (`3d_fullres` configuration) - **Running (Job 210621)**.
 - [ ] Compare inference results against SOTA CNN.
 
-**Status:** Transformer Baseline model is currently training on the GPU cluster (Epoch 27+). nnU-Net dataset conversion and preprocessing is COMPLETE. The official nnU-Net training job has been queued.
+**Status:** Transformer Baseline model has completed training (Final Val IoU: **0.3904**). nnU-Net dataset conversion and preprocessing is COMPLETE. The official nnU-Net training job is actively running.
+
+---
+
+### 🧪 Phase 2: Annotation Efficiency (Semi-Supervised Learning)
+*Goal: Identify the "break-even point" for data annotation using SSL.*
+
+**Setup:**
+- Methods: Mean Teacher (MT), Cross-Pseudo Supervision (CPS), Uncertainty-Aware Mean Teacher (UA-MT).
+- Ratios: 10%, 25%, 50% labeled data.
+- Scripts: `create_ssl_splits.py`, `run_ssl_meanteacher_v2.py`, `run_ssl_cps.py`, `run_ssl_uamt.py`.
+
+**Execution:**
+- [x] Create standardized data split JSON for consistent comparison (281 cases total).
+- [x] Implement UA-MT with Monte Carlo Dropout uncertainty weighting.
+- [x] Implement CPS with mutual pseudo-labeling.
+- [ ] Train SSL models on 10% labeled data - **Running (Jobs 210687, 210688, 210689)**.
+- [ ] Train SSL models on 25% labeled data.
+- [ ] Train SSL models on 50% labeled data.
+
+**Status:** Phase 2 is officially launched. The 10% labeled data benchmarks are currently training on the GPU cluster. nnU-Net (Phase 1) is also approaching its final epochs in parallel.
 
 ---

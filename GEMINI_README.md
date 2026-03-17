@@ -7,7 +7,7 @@ The ultimate goal is to transition this research into a high-impact journal pape
 
 ## 📊 Current State (March 16, 2026)
 - **Champion Model:** `ishFinal/baseline/models/model_patch_best.h5` (Patch-based U-Net v6).
-- **Verified Metrics:** Avg Dice **0.815** (Max **0.91** on pancreas_001).
+- **Verified Metrics:** Avg Dice **0.849** (Max **0.91** on pancreas_001).
 - **HPC Environment:** VU MIF HPC (Lustre Scratch). 
 - **GPU Setup:** Use `submit_verify_gpu_v3.sh` logic (linking `nvidia` libs from `venv`). **Critical: Use HU Windowing [-125, 275]**.
 
@@ -34,6 +34,11 @@ When drafting the paper or evaluating results, future AI sessions MUST adhere to
 - **Continuity & Documentation:** Every session MUST proactively update `RESEARCH_LOG.md` (for raw data/status) and `JOURNAL_WALKTHROUGH.md` (for the narrative story).
 - **Journal Writing:** A formal LaTeX manuscript is located at `baseline/paper/journal_manuscript.tex`. As new experiments (like Transformer or nnU-Net baselines) finish, YOU MUST update the `Methodology` and `Results` sections of this `.tex` file using a high-quality academic tone (avoiding generic "AI styling").
 
-## 🚀 Next Session Start (March 17+)
-1.  **Check Transformer:** Job `210615` should be complete. Extract its final validation IoU/Dice, add it to `RESEARCH_LOG.md`, update the `ablation_iou_comparison.png` to include it, and write the results into the LaTeX manuscript.
-2.  **Check nnU-Net:** Job `210621` is a long-running PyTorch training job. Check its status (`squeue` and logs). If finished, extract its final metrics to see if it beat our 0.815 SOTA. Update logs and the paper accordingly.
+## 🚀 Next Session Start
+1.  **Check nnU-Net:** Job `210621` (Phase 1). Check its status (`squeue` and logs in `nnUNet_results/`). If finished, extract its final metrics to confirm it hits ~0.83 Dice. Update logs and the paper accordingly.
+2.  **Check Phase 2 SSL (10% Ratio):** Jobs `210690` (MT), `210691` (CPS), and `210692` (UA-MT) were submitted for the 10% labeled data split.
+    *   Verify their status via `squeue` or `sacct`.
+    *   If complete, extract their final Validation IoU/Dice from `baseline/models/ssl_*/log.csv`.
+    *   Log these results in `RESEARCH_LOG.md` and draft them into the Annotation Efficiency section of `baseline/paper/journal_manuscript.tex`.
+    *   If successful, prepare and submit the scripts for the 25% and 50% labeled ratios.
+3.  **HPC Quota Warning:** We are limited to ~80 monthly GPU hours. Ensure any new `sbatch` jobs have their `--time` limit set conservatively (e.g., `12:00:00` for SSL runs) to prevent `AssocGrpGRESMinutes` blocking. Review HPC docs if needed: [https://mif.vu.lt/itwiki/en:hpc](https://mif.vu.lt/itwiki/en:hpc)

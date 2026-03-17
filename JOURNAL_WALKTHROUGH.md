@@ -15,7 +15,7 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 ### 🔬 Milestone 2: Resolution Ablation (Completed)
 - **Objective:** Quantify the exact performance loss when resizing CT slices.
 - **Experiment Results:**
-    - **SOTA Baseline:** 512x512 Native Resolution (via 256x256 patches) -> **0.815 Dice**.
+    - **SOTA Baseline:** 512x512 Native Resolution (via 256x256 patches) -> **0.849 Dice**.
     - **Ablation A (256x256 Full-Slice):** Final Validation IoU: **~0.311**.
     - **Ablation B (128x128 Full-Slice):** Final Validation IoU: **~0.304**.
 - **The Story:** As resolution drops from native 512x512 to resized full-slices, the model's ability to "see" the pancreas collapses. Even when the model is given the entire global context of the abdomen, the loss of local texture and boundary sharpness makes accurate segmentation impossible.
@@ -23,8 +23,8 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 ### 🔬 Milestone 3: Architectural Complexity (In Progress)
 - **Objective:** Prove that a high-resolution, simple CNN (SOTA Baseline) outperforms complex, data-hungry Vision Transformers for this specific task.
 - **Experiment Results:**
-    - **SOTA Baseline (CNN):** **0.815 Dice**.
-    - **Transformer Baseline (ViT U-Net):** Learning now...
+    - **SOTA Baseline (CNN):** **0.849 Dice**.
+    - **Transformer Baseline (ViT U-Net):** Final Val IoU: **~0.390**.
 
 ---
 
@@ -37,10 +37,20 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 | Ablation Preprocessing | ✅ Success | 256 and 128 sets generated |
 | 256x256 Training | ✅ Completed | Final Val IoU: 0.3113 |
 | 128x128 Training | ✅ Completed | Final Val IoU: 0.3036 |
-| Transformer Training | 🔄 Running | Epoch 27+ |
+| Transformer Training | ✅ Completed | Final Val IoU: 0.3904 |
 | nnU-Net Preprocessing | ✅ Completed | nnUNetPlans.json Generated |
 | nnU-Net Training | ⏳ Queued | Waiting for GPU |
 | Visualization System | ✅ Active | Final Plots Ready |
+
+### 🔬 Phase 2: The Annotation Efficiency Curve (In Progress)
+- **Objective:** Quantify the "Break-even point" for data annotation. We aim to show that by using advanced SSL methods (UA-MT, CPS), we can recover 95%+ of supervised performance while labeling only 50% or even 25% of the data.
+- **Methodology:**
+    - **Baseline:** Fully Supervised (100% Labels).
+    - **SSL A (Mean Teacher):** Consistency Regularization.
+    - **SSL B (UA-MT):** Uncertainty-Aware Consistency.
+    - **SSL C (CPS):** Cross-Pseudo Supervision.
+- **Current Status:** 10% Labeled benchmarks are currently running to establish the lower bound of the efficiency curve.
+
 
 
 ---
