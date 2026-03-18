@@ -120,14 +120,14 @@ UA-MT           & \textbf{0.3965}      & \textbf{0.4836}      & \textbf{0.4792} 
 
 These results confirm that UA-MT consistently dominates other SSL approaches, particularly in extremely low-data regimes. At just 10\% labeled data, UA-MT approaches the performance of Mean Teacher at 25\%, effectively halving the required annotation effort. This "doubling of efficiency" is even more pronounced at the 25\% ratio, where the UA-MT model (0.4836 IoU) outperforms the standard Mean Teacher model even when the latter has access to 50\% of the labeled data (0.4571 IoU). This substantial gain is driven by the uncertainty-filtering mechanism, which prevents the student model from over-fitting to the teacher's incorrect predictions in low-contrast regions.
 
-Furthermore, we observed that CPS requires a larger "warm-up" labeled set to stabilize. At 10\% and 25\%, CPS significantly trailed behind UA-MT, as the mutual-supervision between two weakly-initialized networks often leads to representation collapse. Only at 50\% did CPS reach a stable IoU of 0.3997, though it remained inferior to the consistency-based UA-MT framework. Figure~\ref{fig:ssl_curves} visualizes the learning dynamics of these frameworks. The training curves are presented up to Epoch 68, the point at which our highest-performing UA-MT model reached optimal convergence before triggering early-stopping criteria based on allocated computational time limits.
+Furthermore, we observed that CPS requires a larger "warm-up" labeled set to stabilize. At 10\% and 25\%, CPS significantly trailed behind UA-MT, as the mutual-supervision between two weakly-initialized networks often leads to representation collapse. Only at 50\% did CPS reach a stable IoU of 0.3997, though it remained inferior to the consistency-based UA-MT framework. Figure~\ref{fig:ssl_curves} visualizes the learning dynamics of these frameworks across all three data regimes. The training curves for the 50\% regime are presented up to Epoch 68, the point at which our highest-performing UA-MT model reached optimal convergence before triggering early-stopping criteria based on allocated computational time limits.
 
-\begin{figure}[h]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=\columnwidth]{images/ssl_50_iou_comparison.png}
-\caption{Validation IoU curves for the 50\% labeled data regime (shown up to Epoch 68, reflecting the optimal convergence point for the champion UA-MT model). UA-MT demonstrates rapid convergence and superior stability compared to Mean Teacher and Cross-Pseudo Supervision.}
+\includegraphics[width=\textwidth]{images/ssl_all_iou_comparison.png}
+\caption{Validation IoU curves across the 10\%, 25\%, and 50\% labeled data regimes. The 10\% and 25\% plots clearly illustrate the representation collapse of Cross-Pseudo Supervision (CPS) at low data regimes. Conversely, UA-MT demonstrates rapid convergence and superior stability across all ratios, dominating standard Mean Teacher and CPS.}
 \label{fig:ssl_curves}
-\end{figure}
+\end{figure*}
 
 \subsection{Volumetric Performance and Clinical Relevance}
 To validate the clinical utility of our SSL framework, we performed full 3D volumetric inference using a sliding-window approach on the champion models. As shown in Table~\ref{tab:volumetric_dice}, our Fully Supervised SOTA achieved a Mean 3D Dice of 0.8490. Remarkably, the UA-MT model trained on only 50\% of the labels reached a 3D Dice of 0.8031, effectively recovering 94.5\% of the fully supervised performance.
