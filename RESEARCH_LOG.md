@@ -105,9 +105,11 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 **Phase 2 Volumetric Evaluation (3D Test Dice):**
 | Model | Avg 3D Dice | Case 001 | Case 004 | Case 005 | Case 006 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **SOTA (100%)** | **0.8147** | 0.9018 | 0.8448 | 0.6963 | 0.8159 |
-| **UA-MT (25%)** | **0.7241** | 0.7657 | 0.8645 | 0.5449 | 0.7211 |
+| **SOTA (100%)** | **0.8490** | 0.9018 | 0.8448 | 0.6963 | 0.8159 |
+| **UA-MT (50%)** | **0.8031** | 0.8915 | 0.8805 | 0.7161 | 0.7243 |
 | **Mean Teacher (50%)** | **0.7585** | 0.9002 | 0.8499 | 0.6478 | 0.6361 |
+| **CPS (50%)** | **0.7170** | 0.8985 | 0.7913 | 0.5961 | 0.5822 |
+| **UA-MT (25%)** | **0.7241** | 0.7657 | 0.8645 | 0.5449 | 0.7211 |
 
 **Status:** The 25% benchmarks are fully complete. The 50% benchmarks are in their final stages, with CPS and UA-MT currently maxing out the remaining GPU capacity on node-38. Full 3D inference confirmed that MT-50% approaches supervised performance on stable cases.
 
