@@ -60,9 +60,9 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 
 | Task | Status | Details |
 | :--- | :--- | :--- |
-| **TCIA Dataset Download** | ⏳ In Progress | Downloading 82 DICOM series & converting to NIfTI (Job 210934) |
-| **BTCV Dataset Download** | ⏳ In Progress | Downloading multi-organ CT volumes via Synapse API (Job 210944) |
-| **Zero-Shot Evaluation** | 📅 Scheduled | Validating pre-trained NIH champions on new domain data |
+| **TCIA Dataset Download** | ✅ Completed | 80 DICOM series converted to NIfTI |
+| **BTCV Dataset Download** | ✅ Completed | Downloaded multi-organ CT volumes via Synapse API |
+| **Zero-Shot Evaluation** | ⏳ In Progress | Validating pre-trained champions on TCIA data (Job 210946) |
 | **3D Stability Analysis** | 📅 Scheduled | Measuring slice-wise Dice variance across Z-axis |
 
 
