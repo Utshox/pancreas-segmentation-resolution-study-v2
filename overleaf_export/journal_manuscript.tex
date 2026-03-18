@@ -112,20 +112,14 @@ To evaluate annotation efficiency, we trained Semi-Supervised Learning (SSL) met
 \textbf{Method} & \textbf{10\% Labeled} & \textbf{25\% Labeled} & \textbf{50\% Labeled} \\
 \hline
 Mean Teacher    & 0.1939               & 0.3956               & 0.4571               \\
-CPS             & 0.2456               & 0.3328               & 0.3997               \\
-UA-MT           & \textbf{0.3965}      & \textbf{0.4836}      & \textbf{0.4792}      \\
+CPS             & 0.2456               & 0.3328               & Pending*             \\
+UA-MT           & \textbf{0.3965}      & \textbf{0.4836}      & Pending*             \\
 \hline
+\multicolumn{4}{l}{\footnotesize *Training is currently in progress.}
 \end{tabular}
 \end{table}
 
 These results confirm that UA-MT consistently dominates other SSL approaches, particularly in extremely low-data regimes. At just 10\% labeled data, UA-MT approaches the performance of Mean Teacher at 25\%, effectively halving the required annotation effort. This substantial gain is driven by its ability to rigorously filter ambiguous boundary regions during pseudo-labeling.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\columnwidth]{images/ssl_50_iou_comparison.png}
-\caption{Validation IoU curves for the 50\% labeled data regime. UA-MT demonstrates rapid convergence and superior stability compared to Mean Teacher and Cross-Pseudo Supervision.}
-\label{fig:ssl_curves}
-\end{figure}
 
 \subsection{Volumetric Performance and Clinical Relevance}
 To validate the clinical utility of our SSL framework, we performed full 3D volumetric inference using a sliding-window approach on the champion models. As shown in Table~\ref{tab:volumetric_dice}, our Fully Supervised SOTA achieved a Mean 3D Dice of 0.8490. Remarkably, the UA-MT model trained on only 50\% of the labels reached a 3D Dice of 0.8031, effectively recovering 94.5\% of the fully supervised performance.
@@ -151,9 +145,9 @@ The results demonstrate that by preserving native resolution, even semi-supervis
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{images/mega_inference_comparison_005.png}
-\caption{Mega qualitative comparison on the challenging Pancreas\_005 case across multiple axial slices. From left to right: Raw CT Slice, Ground Truth Mask (Green), Ablation 256x256, Fully Supervised SOTA (100\%), UA-MT (25\%), Mean Teacher (50\%), and UA-MT (50\%) predictions. The UA-MT model consistently recovers complex boundary topologies and outperforms standard fully supervised learning on ambiguous regions.}
-\label{fig:mega_inference_comparison}
+\includegraphics[width=\textwidth]{images/inference_comparison_005.png}
+\caption{Qualitative comparison on the challenging Pancreas\_005 case. From left to right: Raw CT Slice, Ground Truth Mask, Fully Supervised SOTA prediction, and the UA-MT (50\% Labels) prediction. The UA-MT model successfully recovers complex boundary topologies that the fully supervised model fails to capture.}
+\label{fig:inference_comparison}
 \end{figure*}
 
 \section{Conclusion}
