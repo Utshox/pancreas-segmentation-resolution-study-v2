@@ -20,9 +20,11 @@ This document outlines the strategic steps to transition the current Pancreas Se
 - [ ] **Annotation Efficiency Curve:** Plot Dice vs. % Labeled data (10%, 25%, 50%, 100%) to find the "Break-even" point where SSL matches Full Supervision.
 - [ ] **Consistency Weighting:** Optimize the sigmoidal ramp-up of $\lambda$ to further stabilize training.
 
-## 🌍 Phase 3: Generalization & Robustness (2-3 Months)
+## 🌍 Phase 3: Generalization & Robustness (Current)
 *Goal: Show the framework is universal, not just tuned for one dataset.*
-- [ ] **Cross-Dataset Validation:** Run the v6 model trained on NIH on a subset of the **Medical Segmentation Decathlon (MSD)** or **TCIA** datasets.
+- [ ] **TCIA Dataset Download:** Downloading and converting 82 DICOM series from TCIA into NIfTI format. *(Currently running on HPC)*
+- [ ] **BTCV Dataset Download:** Requires Synapse account credentials. Once obtained, we will use `synapse get -r syn3193805`.
+- [ ] **Cross-Dataset Validation:** Run the champion SOTA model and UA-MT (50%) on these external datasets.
 - [ ] **Stability Analysis:** Measure the variance of Dice scores across the 3D volume to prove 3D spatial consistency (avoiding "slice anomalies").
 
 ## ✍️ Phase 4: Manuscript & Portfolio (Final Phase)
