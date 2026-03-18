@@ -35,9 +35,9 @@ When drafting the paper or evaluating results, future AI sessions MUST adhere to
 - **Journal Writing:** A formal LaTeX manuscript is located at `baseline/paper/journal_manuscript.tex`. As new experiments (like Transformer or nnU-Net baselines) finish, YOU MUST update the `Methodology` and `Results` sections of this `.tex` file using a high-quality academic tone (avoiding generic "AI styling").
 
 ## 🚀 Next Session Start
-1.  **Check Phase 2 SSL (25% and 50% Ratios):** Jobs `210717` through `210722` were submitted for the remaining data splits.
+1.  **Check Phase 2 SSL (50% Ratios):** CPS 50% and UA-MT 50% are currently running on `node-38`.
     *   Verify their status via `squeue` or `sacct`.
-    *   If complete, extract their final Validation IoU/Dice from `baseline/models/ssl_*/log.csv` (Note: UA-MT 10% is finishing under job 210704).
-    *   Log all these final results in `RESEARCH_LOG.md` and insert them into the "Annotation Efficiency: The SSL Break-Even Point" section of `baseline/paper/journal_manuscript.tex`.
+    *   If complete, extract their final Validation IoU/Dice from `baseline/models/ssl_cps_50/log.csv` and `baseline/models/ssl_uamt_50/log.csv`.
+    *   Log all these final results in `RESEARCH_LOG.md` and complete the "Annotation Efficiency: The SSL Break-Even Point" table in `baseline/paper/journal_manuscript.tex`.
     *   Begin drafting Phase 3 (Cross-Dataset Validation) or compiling final result tables.
-2.  **HPC Quota Warning:** We are limited to ~80 monthly GPU hours. We dropped the SSL batch time to 6h to safely fit inside the remaining ~60h quota. Ensure any new `sbatch` jobs have their `--time` limit set conservatively. Review HPC docs if needed: [https://mif.vu.lt/itwiki/en:hpc](https://mif.vu.lt/itwiki/en:hpc)
+2.  **HPC Quota Warning:** We are operating under the 100 GPU-h monthly limit. Our scripts are optimized to 4 CPUs to run concurrently on the remaining node-38. Check `sreport` to ensure we stay under the limit.

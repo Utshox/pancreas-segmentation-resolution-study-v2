@@ -98,10 +98,10 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 - [x] Create standardized data split JSON for consistent comparison (281 cases total).
 - [x] Implement UA-MT with Monte Carlo Dropout uncertainty weighting.
 - [x] Implement CPS with mutual pseudo-labeling.
-- [x] Train SSL models on 10% labeled data - **Mean Teacher Completed (Val IoU: 0.1938). CPS Completed (Collapsed, Val IoU: 0.000). UA-MT is still running.**
-- [ ] Train SSL models on 25% labeled data.
-- [ ] Train SSL models on 50% labeled data.
+- [x] Train SSL models on 10% labeled data - **Mean Teacher Completed (Val IoU: 0.1939). CPS Completed (Val IoU: 0.2456). UA-MT Completed (Val IoU: 0.3965).**
+- [x] Train SSL models on 25% labeled data - **Mean Teacher Completed (Val IoU: 0.3956). CPS Completed (Val IoU: 0.3328). UA-MT Completed (Val IoU: 0.4836).**
+- [ ] Train SSL models on 50% labeled data - **Mean Teacher Completed (Val IoU: 0.4571). CPS and UA-MT are currently running.**
 
-**Status:** The 10% labeled data benchmarks are mostly complete. We are now preparing to run the 25% and 50% ratios to complete the curve.
+**Status:** The 25% benchmarks are fully complete. The 50% benchmarks are in their final stages, with CPS and UA-MT currently maxing out the remaining GPU capacity on node-38.
 
 ---
