@@ -43,7 +43,7 @@ In this paper, we challenge this paradigm. We hypothesize that for small, low-co
     \item \textbf{Resolution Ablation Study:} We provide rigorous empirical evidence demonstrating that downsampling CT slices causes a collapse in segmentation performance for the pancreas, proving that spatial resolution is the primary performance driver.
     \item \textbf{Domain-Specific Optimization:} We quantify the impact of optimized HU windowing ([-125, 275]), showing a +4.9\% absolute Dice gain over standard windowing.
     \item \textbf{SOTA vs. Complexity:} We demonstrate that a simple, patch-based CNN operating at native resolution outperforms complex Vision Transformers forced to operate under standard memory-constrained conditions.
-    \item \textbf{Annotation Efficiency via SSL:} We integrate our resolution-preserving framework with advanced Semi-Supervised Learning (SSL) methods (Mean Teacher, Uncertainty-Aware Mean Teacher, and Cross-Pseudo Supervision). We demonstrate that combining high spatial resolution with consistency regularization recovers near-fully-supervised performance while using only a fraction of labeled data.
+    \item \textbf{Annotation Efficiency via SSL:} We integrate our resolution-preserving framework with advanced Semi-Supervised Learning (SSL) methods, including Mean Teacher, Uncertainty-Aware Mean Teacher, and Cross-Pseudo Supervision. We demonstrate that combining high spatial resolution with consistency regularization recovers nearly fully supervised performance using only a fraction of labeled data.
 \end{itemize}
 
 \section{Methodology}
@@ -101,7 +101,7 @@ Furthermore, we evaluated a Vision Transformer (ViT) architecture (TransUNet sty
 
 \subsection{Annotation Efficiency: The SSL Break-Even Point}
 
-To evaluate annotation efficiency, we trained Semi-Supervised Learning (SSL) methods—Mean Teacher (MT), Cross-Pseudo Supervision (CPS), and Uncertainty-Aware Mean Teacher (UA-MT)—using 10\%, 25\%, and 50\% of the available labeled data. The validation Intersection over Union (IoU) results are presented in Table~\ref{tab:annotation_efficiency}.
+To evaluate annotation efficiency, we trained Semi-Supervised Learning (SSL) methods---Mean Teacher (MT), Cross-Pseudo Supervision (CPS), and Uncertainty-Aware Mean Teacher (UA-MT)---using 10\%, 25\%, and 50\% of the available labeled data. The validation Intersection over Union (IoU) results are presented in Table~\ref{tab:annotation_efficiency}.
 
 \begin{table}[h]
 \centering
@@ -161,7 +161,7 @@ The results demonstrate that by preserving native resolution, even semi-supervis
 \section{Conclusion}
 In this study, we investigated the critical balance between architectural complexity and spatial resolution for pancreas segmentation in CT images. We empirically demonstrated that the loss of native spatial resolution is the primary driver of performance degradation, outweighing the benefits of advanced architectures such as Vision Transformers. Our optimized 2D patch-based framework, coupled with pancreas-specific HU windowing, achieved a SOTA Dice of 0.8490. 
 
-Furthermore, we demonstrated that this resolution-preserving strategy serves as a robust foundation for semi-supervised learning. By utilizing Uncertainty-Aware Mean Teacher regularization, we were able to double annotation efficiency, with our 25\%-labeled model outperforming standard consistency methods using 50\% labels. Crucially, the discovery that our semi-supervised models can outperform fully supervised benchmarks on difficult cases suggests that uncertainty-guided learning is a necessary paradigm for the ambiguous boundaries characteristic of small abdominal organs. Our findings advocate for a data-centric shift in medical imaging research, prioritizing the preservation of native spatial fidelity over the pursuit of increasingly complex global-context architectures.
+Furthermore, we demonstrated that this resolution-preserving strategy serves as a robust foundation for semi-supervised learning. By utilizing Uncertainty-Aware Mean Teacher regularization, we were able to double annotation efficiency, with our 25\% labeled model outperforming standard consistency methods using 50\% labels. Crucially, the discovery that our semi-supervised models can outperform fully supervised benchmarks on difficult cases suggests that uncertainty-guided learning is a necessary paradigm for the ambiguous boundaries characteristic of small abdominal organs. Our findings advocate for a data-centric shift in medical imaging research, prioritizing the preservation of native spatial fidelity over the pursuit of increasingly complex global-context architectures.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
