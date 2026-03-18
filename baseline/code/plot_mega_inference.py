@@ -124,8 +124,8 @@ def main():
         "UA-MT (50%)"
     ]
     
-    fig, axes = plt.subplots(len(slice_indices), len(columns), figsize=(24, 10))
-    fig.suptitle("Qualitative Inference Across Architectures and Data Regimes (Pancreas_005)", fontsize=22, fontweight='bold', y=1.02)
+    fig, axes = plt.subplots(len(slice_indices), len(columns), figsize=(18, 8))
+    fig.suptitle("Qualitative Inference Across Architectures and Data Regimes (Pancreas_005)", fontsize=20, fontweight='bold', y=1.02)
     
     for row, s_idx in enumerate(slice_indices):
         if vol_lbl.shape[0] == 512 and vol_lbl.shape[1] == 512:
@@ -166,7 +166,7 @@ def main():
     
     os.makedirs("baseline/logs/verification/plots", exist_ok=True)
     out_path = "baseline/logs/verification/plots/mega_inference_comparison_005.png"
-    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.savefig(out_path, dpi=150, bbox_inches='tight')
     print(f"Saved mega plot to {out_path}")
 
 if __name__ == "__main__":

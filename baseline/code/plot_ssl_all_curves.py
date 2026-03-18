@@ -50,7 +50,7 @@ def main():
     plt.tight_layout()
     os.makedirs('baseline/logs/verification/plots', exist_ok=True)
     out_path = 'baseline/logs/verification/plots/ssl_all_iou_comparison.png'
-    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.savefig(out_path, dpi=150, bbox_inches='tight')
     print(f"Saved: {out_path}")
 
 if __name__ == '__main__':

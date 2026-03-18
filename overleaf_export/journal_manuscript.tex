@@ -64,7 +64,7 @@ To isolate the effect of resolution versus architecture, we evaluated the follow
     \item \textbf{Ablation 256x256:} A standard U-Net trained on full CT slices downsampled to $256 \times 256$.
     \item \textbf{Ablation 128x128:} A standard U-Net trained on full CT slices downsampled to $128 \times 128$.
     \item \textbf{Transformer Baseline:} A Vision Transformer U-Net (TransUNet style) \cite{transunet} trained on the native patches to evaluate the necessity of complex self-attention mechanisms.
-    \item \textbf{nnU-Net Baseline:} The established medical image segmentation state-of-the-art framework \cite{nnunet}, utilizing a self-configuring 3D full-resolution architecture. We trained the `3d_fullres` configuration on our dataset to provide an aggressive fully supervised benchmark.
+    \item \textbf{nnU-Net Baseline:} The established medical image segmentation state-of-the-art framework \cite{nnunet}, utilizing a self-configuring 3D full-resolution architecture. We trained the $3d\_fullres$ configuration on our dataset to provide an aggressive fully supervised benchmark.
 \end{enumerate}
 
 \subsection{Semi-Supervised Learning (SSL) Framework}
