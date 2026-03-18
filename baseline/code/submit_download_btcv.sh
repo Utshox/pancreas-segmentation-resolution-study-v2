@@ -7,21 +7,21 @@
 #SBATCH --job-name=dl_btcv
 #SBATCH --output=logs/download_btcv_%j.log
 
+# Check if token is provided
+if [ -z "$SYNAPSE_TOKEN" ]; then
+    echo "Error: SYNAPSE_TOKEN environment variable is not set."
+    echo "Usage: sbatch --export=ALL,SYNAPSE_TOKEN='your_token' baseline/code/submit_download_btcv.sh"
+    exit 1
+fi
+
 echo "Starting BTCV Dataset Download via Synapse..."
 date
 
 # Activate environment
 source "$HOME/ish/venv_pancreas/bin/activate"
 
-# Create destination directory
-BTCV_DIR="/scratch/lustre/home/kayi9958/ish/data_external_btcv"
-mkdir -p "$BTCV_DIR"
-cd "$BTCV_DIR"
-
-# Download the specific BTCV folder containing training/testing NIfTI files
-# Note: You need a Synapse account to download data. We will attempt anonymous download first, 
-# but if it requires auth, it will fail and we'll need to pass credentials.
-synapse get -r syn3193805
+# Run the python script
+python baseline/code/download_btcv.py --token "$SYNAPSE_TOKEN"
 
 echo "Process Complete."
 date

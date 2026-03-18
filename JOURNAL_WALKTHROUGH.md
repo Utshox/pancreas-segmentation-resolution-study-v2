@@ -55,6 +55,16 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 
 - **The Breakthrough:** UA-MT (50%) outperformed the fully supervised model on the most difficult case (Pancreas_005), reaching **0.7161** (vs 0.6963). This confirms our hypothesis that uncertainty-aware consistency regularization is more robust for ambiguous boundary segmentation than pure supervision.
 
+### 🌍 Phase 3: Generalization & Robustness (Active)
+- **Objective:** Prove the universal applicability of the high-resolution patch framework by validating on unseen external datasets and analyzing 3D spatial stability.
+
+| Task | Status | Details |
+| :--- | :--- | :--- |
+| **TCIA Dataset Download** | ⏳ In Progress | Downloading 82 DICOM series & converting to NIfTI (Job 210934) |
+| **BTCV Dataset Download** | ⏳ In Progress | Downloading multi-organ CT volumes via Synapse API (Job 210944) |
+| **Zero-Shot Evaluation** | 📅 Scheduled | Validating pre-trained NIH champions on new domain data |
+| **3D Stability Analysis** | 📅 Scheduled | Measuring slice-wise Dice variance across Z-axis |
+
 
 
 
