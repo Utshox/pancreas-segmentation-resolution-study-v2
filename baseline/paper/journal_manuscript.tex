@@ -118,7 +118,9 @@ UA-MT           & \textbf{0.3965}      & \textbf{0.4836}      & \textbf{0.4792} 
 \end{tabular}
 \end{table}
 
-These results confirm that UA-MT consistently dominates other SSL approaches, particularly in extremely low-data regimes. At just 10\% labeled data, UA-MT approaches the performance of Mean Teacher at 25\%, effectively halving the required annotation effort. This substantial gain is driven by its ability to rigorously filter ambiguous boundary regions during pseudo-labeling.
+These results confirm that UA-MT consistently dominates other SSL approaches, particularly in extremely low-data regimes. At just 10\% labeled data, UA-MT approaches the performance of Mean Teacher at 25\%, effectively halving the required annotation effort. This "doubling of efficiency" is even more pronounced at the 25\% ratio, where the UA-MT model (0.4836 IoU) outperforms the standard Mean Teacher model even when the latter has access to 50\% of the labeled data (0.4571 IoU). This substantial gain is driven by the uncertainty-filtering mechanism, which prevents the student model from over-fitting to the teacher's incorrect predictions in low-contrast regions.
+
+Furthermore, we observed that CPS requires a larger "warm-up" labeled set to stabilize. At 10\% and 25\%, CPS significantly trailed behind UA-MT, as the mutual-supervision between two weakly-initialized networks often leads to representation collapse. Only at 50\% did CPS reach a stable IoU of 0.3997, though it remained inferior to the consistency-based UA-MT framework.
 
 \begin{figure}[h]
 \centering
@@ -157,7 +159,9 @@ The results demonstrate that by preserving native resolution, even semi-supervis
 \end{figure*}
 
 \section{Conclusion}
-[To be completed as Phase 1 finalizes.]
+In this study, we investigated the critical balance between architectural complexity and spatial resolution for pancreas segmentation in CT images. We empirically demonstrated that the loss of native spatial resolution is the primary driver of performance degradation, outweighing the benefits of advanced architectures such as Vision Transformers. Our optimized 2D patch-based framework, coupled with pancreas-specific HU windowing, achieved a SOTA Dice of 0.8490. 
+
+Furthermore, we demonstrated that this resolution-preserving strategy serves as a robust foundation for semi-supervised learning. By utilizing Uncertainty-Aware Mean Teacher regularization, we were able to double annotation efficiency, with our 25\%-labeled model outperforming standard consistency methods using 50\% labels. Crucially, the discovery that our semi-supervised models can outperform fully supervised benchmarks on difficult cases suggests that uncertainty-guided learning is a necessary paradigm for the ambiguous boundaries characteristic of small abdominal organs. Our findings advocate for a data-centric shift in medical imaging research, prioritizing the preservation of native spatial fidelity over the pursuit of increasingly complex global-context architectures.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
