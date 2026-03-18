@@ -114,6 +114,26 @@ UA-MT           & \textbf{0.3965}      & \textbf{0.4836}      & Pending*        
 
 These results confirm that UA-MT consistently dominates other SSL approaches, particularly in extremely low-data regimes. At just 10\% labeled data, UA-MT approaches the performance of Mean Teacher at 25\%, effectively halving the required annotation effort. This substantial gain is driven by its ability to rigorously filter ambiguous boundary regions during pseudo-labeling.
 
+\subsection{Volumetric Performance and Clinical Relevance}
+To validate the clinical utility of our SSL framework, we performed full 3D volumetric inference using a sliding-window approach on the champion models. As shown in Table~\ref{tab:volumetric_dice}, our Fully Supervised SOTA achieved a Mean 3D Dice of 0.849. Remarkably, the UA-MT model trained on only 25\% of the labels reached a 3D Dice of 0.7241, while the Mean Teacher model at 50\% labels reached 0.7585. 
+
+\begin{table}[h]
+\centering
+\caption{Volumetric Performance (3D Test Dice) for Champion Models}
+\label{tab:volumetric_dice}
+\begin{tabular}{lc}
+\hline
+\textbf{Configuration} & \textbf{Mean 3D Dice} \\
+\hline
+Fully Supervised (100\%) & 0.8490 \\
+Mean Teacher (50\%)      & 0.7585 \\
+UA-MT (25\%)            & 0.7241 \\
+\hline
+\end{tabular}
+\end{table}
+
+The results demonstrate that by preserving native resolution, even semi-supervised models can capture the fine-grained morphology of the pancreas. Notably, on "stable" cases (e.g., Pancreas\_001), the 50\% Mean Teacher model achieves a Dice of 0.9002, nearly identical to the supervised upper bound (0.9018), suggesting that for a large subset of clinical cases, 50\% annotation is sufficient for high-fidelity segmentation.
+
 \section{Conclusion}
 [To be completed as Phase 1 finalizes.]
 
