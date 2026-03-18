@@ -11,9 +11,15 @@ def main():
 
     plt.figure(figsize=(10, 6))
     
+    # We truncate all plots to 68 epochs since UA-MT reached its peak and was 
+    # interrupted by the cluster time limit at Epoch 68.
+    MAX_EPOCH = 68
+    
     for label, path in paths.items():
         if os.path.exists(path):
             df = pd.read_csv(path)
+            # Truncate to MAX_EPOCH
+            df = df[df['epoch'] <= MAX_EPOCH]
             # Find the correct column name for validation IoU
             val_col = [c for c in df.columns if 'val_io_u' in c or 'val_iou' in c][0]
             plt.plot(df['epoch'], df[val_col], label=label, linewidth=2)
@@ -21,6 +27,7 @@ def main():
     plt.title('Validation IoU Comparison: SSL at 50% Labeled Data', fontsize=16, pad=20)
     plt.xlabel('Epoch', fontsize=14)
     plt.ylabel('Validation IoU', fontsize=14)
+    plt.xlim(0, MAX_EPOCH)
     plt.legend(fontsize=12)
     plt.grid(True, linestyle='--', alpha=0.7)
     

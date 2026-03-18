@@ -125,7 +125,7 @@ def main():
     ]
     
     fig, axes = plt.subplots(len(slice_indices), len(columns), figsize=(24, 10))
-    fig.suptitle("Mega Comparison: Qualitative Inference across Architectures and Data Regimes (Pancreas_005)", fontsize=22, fontweight='bold', y=0.98)
+    fig.suptitle("Qualitative Inference Across Architectures and Data Regimes (Pancreas_005)", fontsize=22, fontweight='bold', y=1.02)
     
     for row, s_idx in enumerate(slice_indices):
         if vol_lbl.shape[0] == 512 and vol_lbl.shape[1] == 512:
@@ -162,7 +162,7 @@ def main():
             ax.axis('off')
 
     plt.tight_layout()
-    plt.subplots_adjust(top=0.92)  # Give space for the suptitle
+    plt.subplots_adjust(top=0.88)  # Give space for the suptitle
     
     os.makedirs("baseline/logs/verification/plots", exist_ok=True)
     out_path = "baseline/logs/verification/plots/mega_inference_comparison_005.png"
