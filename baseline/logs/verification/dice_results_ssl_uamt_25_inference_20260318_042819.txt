@@ -1,0 +1,8 @@
+Inference Run: ssl_uamt_25_inference_20260318_042819
+Model: baseline/models/ssl_uamt_25/standalone_best.h5
+Average Dice: 0.7241
+------------------------------
+pancreas_001: 0.7657
+pancreas_004: 0.8645
+pancreas_005: 0.5449
+pancreas_006: 0.7211

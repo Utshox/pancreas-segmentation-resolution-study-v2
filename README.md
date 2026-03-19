@@ -1,58 +1,108 @@
-# High-Resolution Patch-Based Pancreas Segmentation (v2)
+# High-Resolution Patch-Based Pancreas Segmentation
 
-This repository contains the finalized code and models for the **High-Resolution Patch-Based Framework** for pancreas segmentation on CT scans. This project represents a shift from complex 3D architectures on low-resolution inputs to standard 2D architectures on high-resolution patches.
+This repository contains the code, models, and manuscript for a **Q1 journal paper** on pancreas segmentation from CT scans. The core thesis: **preserving native CT resolution (512x512) via patch-based processing matters more than architectural complexity** for small-organ segmentation.
 
-## 🚀 The Core Breakthrough: Resolution Preservation
-Standard 3D models (V-Net, UNETR, etc.) often downsample 512x512 CT slices to 128x128 or 256x256 to fit GPU memory, discarding 75% of pixel data. We demonstrated that for the pancreas, **preserving native voxel resolution (0.7mm x 0.7mm)** is more critical than capturing global abdominal context at once. 
+## Key Results
 
-By switching to a patch-based approach (256x256 patches from 512x512 slices), we achieved a significant Dice improvement, reaching a SOTA of **0.849 Dice** on the Medical Segmentation Decathlon (MSD) Task07_Pancreas dataset.
+| Model | MSD 3D Dice | TCIA Dice (Zero-Shot) |
+|:---|:---|:---|
+| **Supervised SOTA (100% labels, BCE)** | **0.849** | 0.544 |
+| **UA-MT SSL (50% labels, BCE)** | **0.803** | **0.603** |
+| nnU-Net 3d_fullres (our reprod.) | 0.823 | — |
+| Vision Transformer (TransUNet-style) | 0.390 IoU | — |
+| Ablation 256x256 (downsampled) | 0.311 IoU | — |
+| Ablation 128x128 (downsampled) | 0.304 IoU | — |
 
-## 📊 SOTA Performance (Phase 1 & Phase 2 Benchmarks)
-| Model | Avg 3D Dice | Case 001 | Case 004 | Case 005 | Case 006 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **SOTA (Supervised 100%)** | **0.8490** | 0.9018 | 0.8448 | 0.6963 | 0.8159 |
-| **UA-MT (SSL 50%)** | **0.8031** | 0.8915 | 0.8805 | 0.7161 | 0.7243 |
-| **Mean Teacher (SSL 50%)** | **0.7585** | 0.9002 | 0.8499 | 0.6478 | 0.6361 |
-| **UA-MT (SSL 25%)** | **0.7241** | 0.7657 | 0.8645 | 0.5449 | 0.7211 |
+**Note:** MSD Task07 has parenchyma + tumour labels. We merge both into binary pancreas-vs-background. Our Dice is for the combined binary class.
 
-*Note: UA-MT at 50% data actually outperformed the fully supervised model on the most difficult case (Pancreas_005), proving the superior regularizing effect of uncertainty-aware consistency.*
+## Current Status (March 19, 2026)
 
-## 📖 Roadmap: From Conference to Q1 Journal
-This project is currently evolving from a conference-level study into a comprehensive **Q1 Journal Publication** (Targeting IEEE T-MI or MedIA). 
-- **Phase 1 (Complete):** Resolution ablation, windowing optimization, and SOTA baseline established.
-- **Phase 2 (Complete):** Annotation efficiency curve established. UA-MT proven to double efficiency compared to standard methods.
-- **Phase 3 (Upcoming):** Cross-dataset generalization (validation on external data) and 3D stability analysis.
-- **Phase 4 (Drafting):** Formal manuscript preparation with multi-slice qualitative heatmaps.
+### Completed
+- **Phase 1:** Resolution ablation, HU windowing (+4.94% Dice), architecture comparison (CNN vs ViT vs nnU-Net)
+- **Phase 2:** SSL annotation efficiency (MT, UA-MT, CPS at 10/25/50% labels)
+- **Phase 3:** Cross-dataset generalization (TCIA, 80 volumes), 3D stability analysis
+- **Phase 4:** Full manuscript (~440 lines, 13 figures, 6 tables, 29 citations)
+- **Fourier analysis:** Frequency-domain proof of why resolution matters (boundary edge strength drops 38% at 128x128)
+- **PhD Statement of Purpose:** Draft complete (`PhD_Statement_of_Purpose.md`)
 
-## 📝 Q1 Journal Submission Guidelines
-To ensure we don't prematurely finalize sections (like the Conclusion) before the research is actually complete, and to adhere to strict Q1 journal standards, we will follow these guidelines:
+### Recently Completed
+- **Dice+BCE Loss Ablation:** Negative result — supervised Dice+BCE achieved 0.824 Dice vs 0.849 BCE-only (-2.5%). Added to manuscript as loss ablation subsection.
+- **Additional Mega Plots:** Pancreas_001 (easy) and Pancreas_004 (medium) added to manuscript.
+- **SOTA Comparison Table:** Verified with proper footnotes about cross-dataset caveats.
 
-### **1. IEEE Transactions on Medical Imaging (T-MI)**
-*   **Length:** Strictly limited to **10 pages** for the initial submission (double-column format). Overlength charges apply after 8 pages.
-*   **Format:** IEEE template (Double-column, single-spaced).
-*   **Abstract:** Unstructured, typically ~250 words.
-*   **Key Focus:** Extremely dense, technically rigorous. Emphasizes mathematical justification and comprehensive ablation (which Phase 1 & 2 provide).
+### TODO
+1. **Multi-seed experiments** — needed for error bars (currently single-run, reviewer risk).
+2. **Choose target journal** and finalize formatting.
+3. **Final formatting pass** on Overleaf.
 
-### **2. Medical Image Analysis (MedIA - Elsevier)**
-*   **Length:** Flexible (typically ~3,500+ words), allowing for more extensive discussion and qualitative visual analysis.
-*   **Format:** Single-column, double-spaced (for review).
-*   **Abstract:** **Structured** (Background, Methods, Results, Conclusions) and under 350 words.
-*   **Highlights:** Requires 3 to 5 mandatory bullet points summarizing the core novelties.
+## Repository Structure
 
-**Drafting Rule:** The `Conclusion` section in the `.tex` file must remain a `[Placeholder]` until the absolute final Phase (Phase 3) is completed and cross-dataset results are fully analyzed.
-
-## 📁 Repository Structure
-```text
+```
 ishFinal/
-├── baseline/            # Main research directory
-│   ├── code/            # Training, Inference, and Plotting scripts
-│   ├── logs/            # Best training logs, verification runs, and plots
-│   ├── models/          # Saved model weights (SOTA and SSL Champions)
-│   └── paper/           # LaTeX source files for the journal manuscript
-├── overleaf_export/     # Ready-to-upload LaTeX package for Overleaf preview
-├── RESEARCH_LOG.md      # Detailed logs of experiments and metrics
-└── JOURNAL_WALKTHROUGH.md # The narrative roadmap for the publication
+├── baseline/
+│   ├── code/                    # All Python scripts and SLURM submission scripts
+│   │   ├── run_patch_training_v2.py        # Supervised baseline (BCE)
+│   │   ├── run_patch_training_dicebce.py   # Supervised baseline (Dice+BCE) [NEW]
+│   │   ├── run_ssl_uamt.py                # UA-MT SSL (BCE)
+│   │   ├── run_ssl_uamt_dicebce.py        # UA-MT SSL (Dice+BCE) [NEW]
+│   │   ├── run_ssl_meanteacher_v2.py      # Mean Teacher SSL
+│   │   ├── run_ssl_cps.py                 # Cross-Pseudo Supervision SSL
+│   │   ├── sliding_window_inference.py     # 3D volumetric inference
+│   │   ├── fourier_analysis.py            # Frequency-domain analysis [NEW]
+│   │   ├── generate_diagrams.py           # Architecture/pipeline diagrams [NEW]
+│   │   ├── plot_mega_inference.py         # Multi-model qualitative comparison
+│   │   ├── plot_mega_additional.py        # Additional mega plots [NEW]
+│   │   ├── ssl_splits.json               # Fixed SSL data splits
+│   │   └── submit_*.sh                   # SLURM submission scripts
+│   ├── logs/verification/               # Inference results and plots
+│   │   ├── dice_results_*.txt           # Per-case Dice scores
+│   │   └── plots/                       # All generated figures
+│   ├── models/                          # Trained model weights
+│   │   ├── model_patch_best.h5          # SOTA supervised (0.849 Dice)
+│   │   ├── ssl_uamt_50/                # UA-MT 50% champion
+│   │   ├── ssl_meanteacher_50/         # Mean Teacher 50%
+│   │   ├── ssl_cps_50/                 # CPS 50%
+│   │   ├── supervised_dicebce/         # [TRAINING] Dice+BCE supervised
+│   │   └── ssl_uamt_50_dicebce/        # [TRAINING] Dice+BCE UA-MT
+│   └── paper/journal_manuscript.tex     # Synced copy of manuscript
+├── overleaf_export/                     # Upload to Overleaf
+│   ├── journal_manuscript.tex           # PRIMARY manuscript file
+│   ├── references.bib                   # 29 references
+│   └── images/                          # All 13+ figures
+├── PhD_Statement_of_Purpose.md          # PhD SoP draft
+├── plan.md                              # Strategic roadmap
+├── RESEARCH_LOG.md                      # Experiment log
+├── JOURNAL_WALKTHROUGH.md               # Publication narrative
+└── sample_1.pdf, sample_2.pdf           # Reference papers (style guides)
 ```
 
-## 🤝 Acknowledgments
-This research is conducted at the **Institute of Computer Science, Vilnius University**, utilizing the VU MIF HPC resources (NVIDIA V100 GPU Cluster).
+## Technical Details
+
+- **HPC:** VU MIF cluster, NVIDIA V100 32GB, SLURM scheduler
+- **Environment:** `~/ish/venv_pancreas/` (Python 3.10, TensorFlow 2.x, numpy 1.26)
+- **Data:** `/scratch/lustre/home/kayi9958/ish/data/Task07_Pancreas/` (raw NIfTI), preprocessed patches at `/scratch/lustre/home/kayi9958/ish/preprocessed_v5_patches/`
+- **TCIA data:** `/scratch/lustre/home/kayi9958/ish/data_tcia_ras/` (reoriented to RAS)
+
+## Hyperparameters (from source code)
+
+| Config | Optimizer | LR | Batch | Epochs | Loss | EMA alpha |
+|--------|-----------|------|-------|--------|------|-----------|
+| Supervised | Adam | 1e-4 | 32 | 100 | BCE | — |
+| Supervised (new) | Adam | 1e-4 | 32 | 100 | Dice+BCE | — |
+| UA-MT | Adam | 1e-4 | 8 | 100 | BCE+MSE | 0.999 |
+| UA-MT (new) | Adam | 1e-4 | 8 | 100 | Dice+BCE+MSE | 0.999 |
+| Mean Teacher | Adam | 1e-4 | 16 | 100 | BCE+MSE | 0.999 |
+| CPS | Adam | 1e-4 | 16 | 100 | BCE+BCE | — |
+| nnU-Net | Self-config | — | — | 1000 | DC+CE | — |
+
+## Known Issues / Reviewer Risks
+
+1. **Single-run results** — no error bars across random seeds
+2. **Small test set** — only 4 MSD test cases (N=4)
+3. **TransUNet comparison** — trained from scratch (unfair, needs pre-trained weights)
+4. **MSD label handling** — we merge parenchyma+tumour into binary; published MSD results often report per-class averages
+5. **TCIA = NIH-82** — same patients, so "external" validation is less independent than it sounds
+
+## Acknowledgments
+
+Institute of Computer Science, Vilnius University. VU MIF HPC resources (NVIDIA V100 GPU Cluster).

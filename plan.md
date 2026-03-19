@@ -20,17 +20,20 @@ This document outlines the strategic steps to transition the current Pancreas Se
 - [ ] **Annotation Efficiency Curve:** Plot Dice vs. % Labeled data (10%, 25%, 50%, 100%) to find the "Break-even" point where SSL matches Full Supervision.
 - [ ] **Consistency Weighting:** Optimize the sigmoidal ramp-up of $\lambda$ to further stabilize training.
 
-## 🌍 Phase 3: Generalization & Robustness (Current)
+## 🌍 Phase 3: Generalization & Robustness (Completed)
 *Goal: Show the framework is universal, not just tuned for one dataset.*
-- [ ] **TCIA Dataset Download:** Downloading and converting 82 DICOM series from TCIA into NIfTI format. *(Currently running on HPC)*
+- [x] **TCIA Dataset Download:** Downloading and converting 82 DICOM series from TCIA into NIfTI format. 
 - [ ] **BTCV Dataset Download:** Requires Synapse account credentials. Once obtained, we will use `synapse get -r syn3193805`.
-- [ ] **Cross-Dataset Validation:** Run the champion SOTA model and UA-MT (50%) on these external datasets.
-- [ ] **Stability Analysis:** Measure the variance of Dice scores across the 3D volume to prove 3D spatial consistency (avoiding "slice anomalies").
+- [x] **Cross-Dataset Validation:** Run the champion SOTA model and UA-MT (50%) on these external datasets.
+- [x] **Stability Analysis:** Measure the variance of Dice scores across the 3D volume to prove 3D spatial consistency (avoiding "slice anomalies").
 
-## ✍️ Phase 4: Manuscript & Portfolio (Final Phase)
-- [ ] **High-Resolution Figures:** Create multi-slice comparison heatmaps (Ground Truth vs. Supervised vs. Mean Teacher).
-- [ ] **LaTeX Journal Template:** Convert the current conference draft (`journey.txt`) into a formal 10-12 page journal manuscript.
-- [ ] **PhD Statement of Purpose (SoP):** Integrate these results into your application to show you have already established a SOTA framework on a high-performance cluster.
+## ✍️ Phase 4: Manuscript & Portfolio (Near Complete)
+- [x] **High-Resolution Figures:** Multi-slice comparison heatmaps for easy/medium/hard cases (001, 004, 005) + TCIA
+- [x] **LaTeX Journal Template:** ~470 lines, 15 figures, 7 tables, 29 citations. Loss ablation section added.
+- [x] **PhD Statement of Purpose (SoP):** ~900 word draft at `PhD_Statement_of_Purpose.md`
+- [x] **Loss Function Ablation:** Dice+BCE tested and shown inferior (0.824 vs 0.849 BCE-only)
+- [ ] **Multi-seed experiments** — needed for error bars (reviewer risk)
+- [ ] **Choose target journal** and finalize formatting
 
 ---
 

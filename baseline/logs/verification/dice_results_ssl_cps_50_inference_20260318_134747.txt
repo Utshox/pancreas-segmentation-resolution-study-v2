@@ -1,0 +1,8 @@
+Inference Run: ssl_cps_50_inference_20260318_134747
+Model: baseline/models/ssl_cps_50/standalone_best.h5
+Average Dice: 0.7170
+------------------------------
+pancreas_001: 0.8985
+pancreas_004: 0.7913
+pancreas_005: 0.5961
+pancreas_006: 0.5822

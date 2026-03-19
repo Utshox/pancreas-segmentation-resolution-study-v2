@@ -1,0 +1,8 @@
+Inference Run: ssl_meanteacher_50_inference_20260318_042945
+Model: baseline/models/ssl_meanteacher_50/standalone_best.h5
+Average Dice: 0.7585
+------------------------------
+pancreas_001: 0.9002
+pancreas_004: 0.8499
+pancreas_005: 0.6478
+pancreas_006: 0.6361

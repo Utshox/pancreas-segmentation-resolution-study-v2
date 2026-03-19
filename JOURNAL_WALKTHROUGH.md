@@ -62,14 +62,15 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 | :--- | :--- | :--- |
 | **TCIA Dataset Download** | ✅ Completed | 80 DICOM series converted to NIfTI |
 | **BTCV Dataset Download** | ✅ Completed | Downloaded multi-organ CT volumes via Synapse API |
-| **Zero-Shot Evaluation** | ⏳ In Progress | Validating pre-trained champions on TCIA data (Job 210946) |
-| **3D Stability Analysis** | 📅 Scheduled | Measuring slice-wise Dice variance across Z-axis |
-
-
-
+| **Zero-Shot Evaluation** | ✅ Completed | UA-MT (50%) achieved 0.6031 Dice on TCIA (Job 210951) |
+| **3D Stability Analysis** | ✅ Completed | TCIA Case 052 Mean Dice: 0.7218, Std: 0.2457 |
+| **Manuscript Expansion** | ✅ Completed | ~470 lines, 15 figures, 7 tables, 29 citations |
+| **Loss Ablation (Dice+BCE)** | ✅ Completed | Negative result: 0.824 vs 0.849 BCE-only. Added to manuscript |
+| **Additional Mega Plots** | ✅ Completed | Easy (001) and Medium (004) cases added to manuscript |
 
 ---
 
-## ✍️ Next Writing Points for the Paper:
-1.  **"Small Organ Collapsing":** Describe how the pancreas (often only 10-20 pixels wide) effectively disappears when a slice is downsampled to 128x128.
-2.  **"Local Detail vs. Global Context":** Argue that for the pancreas, local texture and boundary sharpess (Resolution) are mathematically more significant than seeing the whole abdomen at once (Global Context).
+## ✍️ Remaining Items:
+1.  **Multi-seed experiments** — needed for error bars (currently single-run results)
+2.  **Choose target journal** — Computers in Biology and Medicine (Q1, IF ~7.7) vs IEEE TMI/MedIA
+3.  **Final formatting pass** — verify all figure references, table alignment, and reference completeness

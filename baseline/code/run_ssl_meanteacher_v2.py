@@ -152,6 +152,7 @@ class DualGenerator(tf.keras.utils.Sequence):
         
         batch_xl = np.expand_dims(batch_xl, -1).astype(np.float32)
         batch_yl = np.expand_dims(batch_yl, -1).astype(np.float32)
+        batch_yl = np.clip(batch_yl, 0, 1)
         batch_xu = np.expand_dims(batch_xu, -1).astype(np.float32)
         
         return (batch_xl, batch_yl), batch_xu
@@ -186,6 +187,7 @@ def main():
     Y_val = np.concatenate([np.load(f) for f in yv_files], axis=0)
     X_val = np.expand_dims(X_val, -1).astype(np.float32)
     Y_val = np.expand_dims(Y_val, -1).astype(np.float32)
+    Y_val = np.clip(Y_val, 0, 1)
     
     X_l = load_and_concat(xl_files)
     Y_l = load_and_concat(yl_files)
