@@ -125,12 +125,12 @@ To address the clinical bottleneck of voxel-level annotation, we investigated th
     \item \textbf{Cross-Pseudo Supervision (CPS) \cite{cps}:} A mutual-learning approach where two identically structured networks with different random initializations generate pseudo-labels to supervise each other.
 \end{enumerate}
 
-\begin{figure}[!htbp]
+\begin{figure*}[!htbp]
 \centering
-\includegraphics[width=\columnwidth]{ssl_framework_overview.png}
-\caption{Overview of the three SSL frameworks. (a)~Mean Teacher: MSE consistency between student and EMA teacher. (b)~UA-MT: MC Dropout uncertainty ($T=8$) weights consistency loss. (c)~CPS: two networks mutually generate pseudo-labels.}
+\includegraphics[width=0.95\textwidth]{ssl_framework_overview.png}
+\caption{Overview of the three semi-supervised learning frameworks. (a)~Mean Teacher enforces MSE consistency between student and EMA teacher predictions on unlabeled data. (b)~UA-MT extends the Mean Teacher with Monte Carlo Dropout uncertainty estimation ($T=8$ passes), weighting the consistency loss by teacher confidence $(1-u)$ to suppress learning from ambiguous regions. (c)~Cross-Pseudo Supervision trains two independently initialized networks that mutually generate pseudo-labels.}
 \label{fig:ssl_framework}
-\end{figure}
+\end{figure*}
 
 \subsection{Loss Formulation}
 \subsubsection{Supervised Loss}
@@ -206,6 +206,7 @@ where $P$ and $G$ denote the predicted and ground truth segmentation masks. The 
 \end{equation}
 During training, we monitored 2D patch-level IoU on the validation set. For final evaluation, we report 3D volumetric Dice computed by aggregating all predicted slices into a full 3D volume and comparing against the ground truth volume.
 
+\FloatBarrier
 % =====================================================================
 \section{Results and Discussion}
 % =====================================================================
@@ -213,12 +214,12 @@ During training, we monitored 2D patch-level IoU on the validation set. For fina
 \subsection{The Impact of Domain-Specific Windowing}
 Our initial experiments isolated the effect of HU windowing using our optimized patch-based model. Table~\ref{tab:hu_windowing} presents the per-case comparison. The standard $[-100, 240]$ window achieved an average Dice of 0.7653, while the pancreas-specific $[-125, 275]$ window improved the average to 0.8147---an absolute gain of +4.94\%. Notably, the improvement is most pronounced on the challenging Pancreas\_005 case (+15.46\% Dice), where the pancreas boundary is particularly ambiguous. This underscores the sensitivity of CNNs to input intensity distributions and validates the importance of domain-specific preprocessing. Fig.~\ref{fig:hu_windowing} visualizes the effect of windowing on a representative CT slice.
 
-\begin{figure}[!htbp]
+\begin{figure*}[!htbp]
 \centering
-\includegraphics[width=\columnwidth]{hu_windowing_comparison.png}
-\caption{HU windowing comparison. (a)~Raw CT. (b)~Standard window $[-100, 240]$. (c)~Our optimized window $[-125, 275]$ (+4.94\% Dice gain).}
+\includegraphics[width=0.95\textwidth]{hu_windowing_comparison.png}
+\caption{Visual comparison of HU windowing strategies on a representative axial CT slice. (a)~Raw CT with full HU range showing low contrast. (b)~Standard abdominal window $[-100, 240]$. (c)~Our optimized pancreas-specific window $[-125, 275]$, which better preserves the subtle intensity gradients at the pancreatic boundary, contributing to a +4.94\% absolute Dice improvement.}
 \label{fig:hu_windowing}
-\end{figure}
+\end{figure*}
 
 \begin{table}[!htbp]
 \centering
@@ -264,12 +265,12 @@ Fig.~\ref{fig:fourier_spectrum} presents the radial power spectrum comparison. T
 
 We further quantified this effect through Sobel edge analysis at the pancreas boundary (Fig.~\ref{fig:fourier_visual}). The mean boundary edge strength decreases from 0.436 at native resolution to 0.345 at $256 \times 256$ ($-$21\%) and 0.269 at $128 \times 128$ ($-$38\%). This progressive degradation of boundary contrast directly explains the catastrophic IoU collapse observed in our ablation study: the pancreas boundary becomes indistinguishable from surrounding tissue at reduced resolutions.
 
-\begin{figure}[!htbp]
+\begin{figure*}[!htbp]
 \centering
-\includegraphics[width=\columnwidth]{fourier_radial_spectrum.png}
-\caption{Frequency-domain analysis. (a)~Radial power spectrum: downsampling eliminates high frequencies overlapping with pancreas boundary content (purple). (b)~Frequency loss map. (c)~Spatial loss (red) concentrated at organ boundaries (green).}
+\includegraphics[width=0.95\textwidth]{fourier_radial_spectrum.png}
+\caption{Frequency-domain analysis of resolution loss. (a)~Radial power spectrum showing that downsampling progressively eliminates high-frequency content. The purple shaded region indicates frequencies corresponding to pancreas boundary structures, which overlap with the destroyed bands. (b)~Frequency loss map (native minus $128\times128$) showing energy eliminated across the 2D spectrum. (c)~Spatial information loss (red) overlaid with the pancreas boundary (green), confirming that lost frequencies concentrate at organ boundaries.}
 \label{fig:fourier_spectrum}
-\end{figure}
+\end{figure*}
 
 \begin{figure*}[!htbp]
 \centering
@@ -342,12 +343,12 @@ UA-MT consistently dominates across all data regimes. At just 10\% labeled data 
 
 CPS requires a larger labeled set to stabilize. At 10\% and 25\%, mutual supervision between two weakly-initialized networks frequently leads to representation collapse. Only at 50\% did CPS reach a stable IoU of 0.400, though it remained inferior to the consistency-based UA-MT framework. Fig.~\ref{fig:ssl_curves} visualizes the learning dynamics across all three data regimes.
 
-\begin{figure}[!htbp]
+\begin{figure*}[!htbp]
 \centering
-\includegraphics[width=\columnwidth]{ssl_all_iou_comparison.png}
-\caption{Validation IoU curves across the 10\%, 25\%, and 50\% labeled data regimes. UA-MT demonstrates superior stability; CPS collapses at low data regimes.}
+\includegraphics[width=0.95\textwidth]{ssl_all_iou_comparison.png}
+\caption{Validation IoU curves across the 10\%, 25\%, and 50\% labeled data regimes. UA-MT demonstrates rapid convergence and superior stability across all ratios, while CPS exhibits representation collapse at low data regimes (10\% and 25\%).}
 \label{fig:ssl_curves}
-\end{figure}
+\end{figure*}
 
 \begin{figure}[!htbp]
 \centering
@@ -378,9 +379,23 @@ CPS 50\%   & 0.899 & 0.791 & 0.596 & 0.582 & 0.717$\pm$0.150 \\
 \end{tabular}
 \end{table}
 
-Most significantly, on the most challenging case (Pancreas\_005), the UA-MT model trained on 50\% data achieved a Dice of \textbf{0.716}, actually outperforming the fully supervised model (0.662 multi-seed mean). This finding suggests that uncertainty-aware consistency provides a superior regularizing gradient for ambiguous medical boundaries than voxel-wise labels alone. A qualitative multi-slice comparison on the most challenging test case is shown in Fig.~\ref{fig:mega_inference_comparison}.
+Most significantly, on the most challenging case (Pancreas\_005), the UA-MT model trained on 50\% data achieved a Dice of \textbf{0.716}, actually outperforming the fully supervised model (0.662 multi-seed mean). This finding suggests that uncertainty-aware consistency provides a superior regularizing gradient for ambiguous medical boundaries than voxel-wise labels alone. Qualitative multi-slice comparisons across easy, medium, and hard cases are shown in Fig.~\ref{fig:mega_easy}, Fig.~\ref{fig:mega_medium}, and Fig.~\ref{fig:mega_inference_comparison}, respectively.
 
-\begin{figure*}[!htbp]
+\begin{figure*}[p]
+\centering
+\includegraphics[width=0.95\textwidth]{mega_inference_comparison_001.png}
+\caption{Qualitative comparison on the easy case (Pancreas\_001). All models, including the ablation baseline, produce reasonable segmentations when the pancreas presents with high contrast and typical morphology. The supervised SOTA achieves near-perfect overlap.}
+\label{fig:mega_easy}
+\end{figure*}
+
+\begin{figure*}[p]
+\centering
+\includegraphics[width=0.95\textwidth]{mega_inference_comparison_004.png}
+\caption{Qualitative comparison on a medium-difficulty case (Pancreas\_004). While the ablation model struggles with boundary delineation, all SSL and supervised models demonstrate strong segmentation, with UA-MT (50\%) closely matching fully supervised performance.}
+\label{fig:mega_medium}
+\end{figure*}
+
+\begin{figure*}[p]
 \centering
 \includegraphics[width=0.95\textwidth]{mega_inference_comparison_005.png}
 \caption{Qualitative comparison on the challenging Pancreas\_005 case across multiple axial slices. From left to right: Raw CT, Ground Truth (green), Ablation 256$\times$256, Fully Supervised SOTA, UA-MT (25\%), Mean Teacher (50\%), and UA-MT (50\%). The UA-MT (50\%) model consistently recovers complex boundary topologies where fully supervised learning fails.}
@@ -396,6 +411,7 @@ A common strategy for addressing class imbalance in medical image segmentation i
 
 Contrary to expectations, the Dice+BCE model achieved an average 3D Dice of \textbf{0.824}, comparable to the BCE-only multi-seed mean ($0.809 \pm 0.015$) but lower than the best BCE-only run (0.849). More critically, the per-case analysis reveals that Dice+BCE catastrophically degrades performance on the hardest case---Pancreas\_005 (0.632 vs.\ 0.696 for BCE-only)---while showing marginal improvements on easy cases: Pancreas\_001 (0.917 vs.\ 0.902) and Pancreas\_004 (0.882 vs.\ 0.845). We attribute this to the interaction between the Dice loss gradient and the extreme class imbalance inherent to pancreas segmentation ($<$0.5\% foreground): on slices where the pancreas is very small, the Dice loss exhibits high gradient variance, introducing instability that outweighs its theoretical advantage. This finding supports our broader thesis: for small-organ segmentation, standard losses with appropriate resolution and preprocessing are more effective than sophisticated loss engineering.
 
+\FloatBarrier
 % =====================================================================
 \section{Generalization and Robustness}
 % =====================================================================
@@ -445,6 +461,7 @@ As shown in Fig.~\ref{fig:stability_tcia} and Fig.~\ref{fig:stability_msd}, our 
 \label{fig:stability_msd}
 \end{figure}
 
+\FloatBarrier
 % =====================================================================
 \section{Limitations and Future Work}
 % =====================================================================
@@ -463,6 +480,7 @@ While our results strongly support the resolution-preservation hypothesis, sever
 
 \textbf{Future Directions.} Promising extensions include: (a) integration with foundation models for pre-training the encoder, which could address the ViT's data hunger; (b) active learning strategies to optimally select which volumes to annotate; and (c) extension to other challenging small-organ segmentation tasks.
 
+\FloatBarrier
 % =====================================================================
 \section{Conclusion}
 % =====================================================================
