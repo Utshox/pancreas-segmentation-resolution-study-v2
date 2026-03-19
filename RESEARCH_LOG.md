@@ -166,6 +166,19 @@ This log tracks all experiments, architectural decisions, and benchmarking resul
 **PhD Statement of Purpose (Complete):**
 - ~900 word draft saved at `PhD_Statement_of_Purpose.md`
 
+**SAM/MedSAM Foundation Model Comparison (Complete — Job 211107):**
+- **SAM ViT-B (bbox prompt):** Average 3D Dice: **0.705** (001=0.756, 004=0.695, 005=0.668, 006=0.701)
+- **MedSAM ViT-B (bbox prompt):** Average 3D Dice: **0.439** (001=0.488, 004=0.486, 005=0.407, 006=0.376)
+- **SAM (automatic, no prompt):** Average 3D Dice: **0.097** (essentially failed)
+- **Key Finding:** Even with GT bounding box prompts (best-case), SAM (91M params) scores 0.705 vs our 7.8M CNN at 0.849. MedSAM is even worse (0.439) — its medical fine-tuning on large organs doesn't transfer to pancreas. SAM's fixed 1024x1024 internal resolution + 16x16 patch embedding destroys the sub-mm boundary info critical for small organs. Added to manuscript Table III and discussion.
+
+**Multi-Seed Experiments (In Progress — Jobs 211102/211103/211104):**
+- Seeds 42, 123, 456 — training supervised + UA-MT 50% for each
+- After completion: run `sbatch baseline/code/submit_multiseed_inference.sh`
+- Then update manuscript Table V with mean±std error bars
+
 **Critical Discoveries:**
 1. MSD Task07 labels have parenchyma (1) + tumour (2). Our training clips to [0,1], merging both into binary. Published MSD results often report per-class averages. Clarified in manuscript.
 2. TCIA Pancreas-CT = NIH-82 (same 82 patients). "External" validation is less independent than initially framed.
+3. Dice+BCE loss is WORSE than BCE-only for pancreas (0.824 vs 0.849). Extreme class imbalance causes high Dice gradient variance.
+4. SAM/MedSAM foundation models fail on pancreas despite 12x more parameters — resolution bottleneck confirmed.

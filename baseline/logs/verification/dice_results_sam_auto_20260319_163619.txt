@@ -1,0 +1,8 @@
+Inference Run: sam_auto_20260319_163619
+Method: sam_auto
+Average Dice: 0.0966
+------------------------------
+pancreas_001: 0.0493
+pancreas_004: 0.0662
+pancreas_005: 0.2013
+pancreas_006: 0.0695

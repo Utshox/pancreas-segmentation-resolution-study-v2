@@ -1,0 +1,8 @@
+Inference Run: supervised_seed456_20260319_182117
+Model: baseline/models/multiseed_supervised/seed_456/model_patch_best.h5
+Average Dice: 0.8111
+------------------------------
+pancreas_001: 0.9074
+pancreas_004: 0.8376
+pancreas_005: 0.6596
+pancreas_006: 0.8397

@@ -32,8 +32,15 @@ This document outlines the strategic steps to transition the current Pancreas Se
 - [x] **LaTeX Journal Template:** ~470 lines, 15 figures, 7 tables, 29 citations. Loss ablation section added.
 - [x] **PhD Statement of Purpose (SoP):** ~900 word draft at `PhD_Statement_of_Purpose.md`
 - [x] **Loss Function Ablation:** Dice+BCE tested and shown inferior (0.824 vs 0.849 BCE-only)
-- [ ] **Multi-seed experiments** — needed for error bars (reviewer risk)
-- [ ] **Choose target journal** and finalize formatting
+- [ ] **Multi-seed experiments** — Jobs 211102/211103/211104 running (seeds 42, 123, 456). After: run `sbatch baseline/code/submit_multiseed_inference.sh`, then update Table V with mean±std
+- [x] **SAM/MedSAM comparison** — SAM=0.705, MedSAM=0.439 vs Ours=0.849. Added to Table III and discussion.
+- [ ] **Target journal: Computers in Biology and Medicine (CBM)** — switch to Elsevier format, structured abstract, 3-5 highlights
+
+## 🔬 Paper 2: Frequency-Domain Diffusion for Cancer Detection (Future)
+*See `NEXT_PAPER_PLAN.md` for full details.*
+- Train diffusion model on healthy pancreas CT → detect anomalies via reconstruction error
+- Compare spatial-domain vs FFT-domain diffusion (novel contribution)
+- Target: IEEE TMI / MedIA / MICCAI
 
 ---
 

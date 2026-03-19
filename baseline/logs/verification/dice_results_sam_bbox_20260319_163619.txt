@@ -1,0 +1,8 @@
+Inference Run: sam_bbox_20260319_163619
+Method: sam_bbox
+Average Dice: 0.7047
+------------------------------
+pancreas_001: 0.7555
+pancreas_004: 0.6948
+pancreas_005: 0.6678
+pancreas_006: 0.7006

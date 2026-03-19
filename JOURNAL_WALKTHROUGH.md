@@ -67,10 +67,12 @@ In this phase, we are proving that the most important factor in Pancreas Segment
 | **Manuscript Expansion** | ✅ Completed | ~470 lines, 15 figures, 7 tables, 29 citations |
 | **Loss Ablation (Dice+BCE)** | ✅ Completed | Negative result: 0.824 vs 0.849 BCE-only. Added to manuscript |
 | **Additional Mega Plots** | ✅ Completed | Easy (001) and Medium (004) cases added to manuscript |
+| **SAM/MedSAM Comparison** | ✅ Completed | SAM=0.705, MedSAM=0.439 vs Ours=0.849. Foundation models fail on pancreas |
+| **Multi-Seed Training** | ⏳ Running | Jobs 211102/103/104, seeds 42/123/456. After: `sbatch baseline/code/submit_multiseed_inference.sh` |
 
 ---
 
 ## ✍️ Remaining Items:
-1.  **Multi-seed experiments** — needed for error bars (currently single-run results)
-2.  **Choose target journal** — Computers in Biology and Medicine (Q1, IF ~7.7) vs IEEE TMI/MedIA
-3.  **Final formatting pass** — verify all figure references, table alignment, and reference completeness
+1.  **Multi-seed inference** — run after training completes, update manuscript Table V with mean±std
+2.  **Target journal: CBM** — Computers in Biology and Medicine (Q1, IF ~7.7). Switch to Elsevier format.
+3.  **Final formatting pass** — structured abstract, highlights (3-5 bullets), Elsevier template

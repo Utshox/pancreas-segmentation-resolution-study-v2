@@ -26,14 +26,19 @@ This repository contains the code, models, and manuscript for a **Q1 journal pap
 - **PhD Statement of Purpose:** Draft complete (`PhD_Statement_of_Purpose.md`)
 
 ### Recently Completed
-- **Dice+BCE Loss Ablation:** Negative result — supervised Dice+BCE achieved 0.824 Dice vs 0.849 BCE-only (-2.5%). Added to manuscript as loss ablation subsection.
-- **Additional Mega Plots:** Pancreas_001 (easy) and Pancreas_004 (medium) added to manuscript.
-- **SOTA Comparison Table:** Verified with proper footnotes about cross-dataset caveats.
+- **SAM/MedSAM Foundation Model Comparison:** SAM ViT-B (bbox)=0.705, MedSAM (bbox)=0.439, SAM (auto)=0.097 — all worse than our 7.8M CNN (0.849). Even with GT bounding box prompts, foundation models fail on small organs.
+- **Dice+BCE Loss Ablation:** Negative result — 0.824 vs 0.849 BCE-only. BCE alone is better for extreme class imbalance.
+- **Additional Mega Plots:** Pancreas_001 (easy) and Pancreas_004 (medium) qualitative comparisons.
+
+### In Progress
+- **Multi-seed training (Jobs 211102/103/104):** Seeds 42, 123, 456 for supervised + UA-MT 50%.
+  - After completion: `sbatch baseline/code/submit_multiseed_inference.sh`
+  - Then update manuscript Table V with mean±std error bars.
 
 ### TODO
-1. **Multi-seed experiments** — needed for error bars (currently single-run, reviewer risk).
-2. **Choose target journal** and finalize formatting.
-3. **Final formatting pass** on Overleaf.
+1. **Multi-seed inference** and manuscript update with error bars.
+2. **Switch to Elsevier/CBM format** — structured abstract, highlights, single-column review format.
+3. **Final formatting pass** and submission.
 
 ## Repository Structure
 
