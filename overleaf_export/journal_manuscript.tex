@@ -1,40 +1,62 @@
-\documentclass[journal, twocolumn]{IEEEtran}
-\usepackage{cite}
+\documentclass[review,authoryear]{elsarticle}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{multirow}
+\usepackage{lineno}
 
 \graphicspath{{images/}}
 
+\journal{Computers in Biology and Medicine}
+
 \begin{document}
+
+\begin{frontmatter}
 
 \title{Resolution Preservation over Architectural Complexity in Pancreas Segmentation from CT Images}
 
-\author{Istiaque Ahmed,
-        Kursat Komurcu
-\thanks{I. Ahmed and K. Komurcu are with the Institute of Computer Science, Vilnius University, Lithuania.}
-}
+\author[vu]{Istiaque Ahmed\corref{cor1}}
+\ead{istiaque.ahmed@mif.stud.vu.lt}
+\author[vu]{Kursat Komurcu}
 
-\markboth{Computers in Biology and Medicine,~2026}%
-{Ahmed and Komurcu: Resolution Preservation over Architectural Complexity in Pancreas Segmentation}
+\cortext[cor1]{Corresponding author.}
+\affiliation[vu]{organization={Institute of Computer Science, Vilnius University},
+                  city={Vilnius},
+                  country={Lithuania}}
 
-\maketitle
+%% Highlights (required by CBM)
+\begin{highlights}
+\item Preserving native CT resolution (512$\times$512) matters more than architectural complexity for pancreas segmentation
+\item A simple 7.8M-parameter patch-based CNN achieves 0.809$\pm$0.015 Dice, competitive with nnU-Net (0.823) and outperforming SAM (0.705)
+\item Uncertainty-aware semi-supervised learning recovers 99.3\% of supervised performance with only 50\% of labeled data
+\item Fourier analysis proves downsampling destroys 38\% of boundary edge information critical for small-organ delineation
+\item Zero-shot transfer to 80 external TCIA volumes confirms SSL provides superior cross-domain generalization
+\end{highlights}
 
 \begin{abstract}
-The automated segmentation of the pancreas from Computed Tomography (CT) images remains a significant challenge due to the organ's small volume, high anatomical variability, and low contrast with surrounding tissues. Recent trends in medical image segmentation have heavily favored complex architectures, such as Vision Transformers and Attention-based networks, often at the expense of spatial resolution to accommodate GPU memory constraints. In this work, we empirically demonstrate that for small-organ segmentation, preserving native spatial resolution is substantially more critical than architectural complexity. We propose a simple, high-resolution patch-based Convolutional Neural Network (CNN) framework paired with domain-specific Hounsfield Unit (HU) windowing. Our comprehensive ablation studies reveal that downsampling CT slices from $512 \times 512$ to $256 \times 256$ causes a catastrophic collapse in segmentation fidelity, regardless of the global context provided. Our optimized baseline achieves a mean Dice similarity coefficient of $0.809 \pm 0.015$ (across four independent runs) on the Medical Segmentation Decathlon (MSD) Task07\_Pancreas dataset, with peak performance reaching 0.849, outperforming downsampled full-slice models (which stagnate at $\sim$0.31 IoU), the Segment Anything Model (SAM, 0.705 Dice even with ground-truth bounding box prompts), and achieving competitive performance with the self-configuring nnU-Net (0.823 Dice) at a fraction of the computational cost. Furthermore, we integrate our framework with three Semi-Supervised Learning (SSL) paradigms and demonstrate that an Uncertainty-Aware Mean Teacher (UA-MT) recovers 99.3\% of fully supervised performance using only 50\% of labeled data. Zero-shot evaluation on 80 external TCIA volumes confirms robust cross-domain generalization, with the SSL model (0.603 Dice) outperforming the fully supervised baseline (0.544 Dice). These findings advocate for data-centric, resolution-preserving strategies over architectural complexity in small-organ segmentation.
+\textbf{Background:} The automated segmentation of the pancreas from Computed Tomography (CT) images remains challenging due to the organ's small volume ($<$0.5\% of the abdomen), high anatomical variability, and low contrast with surrounding tissues. Recent trends favor complex architectures (Vision Transformers, foundation models) that often sacrifice spatial resolution to accommodate GPU memory constraints.
+
+\textbf{Methods:} We propose a high-resolution patch-based CNN framework (7.8M parameters) that preserves native CT resolution ($512 \times 512$) through $256 \times 256$ patch extraction with domain-specific HU windowing. We conduct comprehensive ablation studies isolating resolution from architectural complexity, and integrate the framework with three semi-supervised learning (SSL) paradigms. We evaluate against nnU-Net, Vision Transformers, and the Segment Anything Model (SAM/MedSAM), with additional validation on 80 external TCIA volumes.
+
+\textbf{Results:} Our patch-based CNN achieves $0.809 \pm 0.015$ Dice (four independent runs, peak 0.849) on MSD Task07\_Pancreas, competitive with nnU-Net (0.823) and dramatically outperforming SAM (0.705 with GT bounding box prompts) and MedSAM (0.439). Downsampling to $256 \times 256$ or $128 \times 128$ causes IoU collapse from 0.69 to $\sim$0.31. Fourier analysis confirms a 38\% loss in boundary edge strength at $128 \times 128$. Uncertainty-aware Mean Teacher (UA-MT) with 50\% labels recovers 99.3\% of supervised performance, and outperforms the fully supervised model on 80 external TCIA volumes (0.603 vs.\ 0.544 Dice).
+
+\textbf{Conclusions:} For small-organ segmentation, preserving native spatial resolution is more critical than architectural complexity. Data-centric strategies with lightweight CNNs outperform foundation models and are competitive with self-configuring frameworks, while SSL provides superior annotation efficiency and domain generalization.
 \end{abstract}
 
-\begin{IEEEkeywords}
-Pancreas Segmentation, Computed Tomography, Deep Learning, Resolution Preservation, Semi-Supervised Learning, Convolutional Neural Networks.
-\end{IEEEkeywords}
+\begin{keyword}
+Pancreas segmentation \sep Computed tomography \sep Deep learning \sep Resolution preservation \sep Semi-supervised learning \sep Convolutional neural networks
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
 
 % =====================================================================
 \section{Introduction}
 % =====================================================================
-\IEEEPARstart{P}{ancreatic} cancer is the third leading cause of cancer-related mortality in the United States, with a five-year survival rate of approximately 12\% \cite{Cancerstatistics2023}. This dismal prognosis is largely attributable to late-stage diagnosis, as early pancreatic lesions are often clinically silent. Automated segmentation of the pancreas from abdominal Computed Tomography (CT) scans is therefore a crucial prerequisite for computer-aided diagnosis, surgical planning, and longitudinal disease monitoring. However, the pancreas is notoriously difficult to segment: it occupies a minute fraction ($<$0.5\%) of the total abdominal volume, exhibits high inter-patient shape variability, and shares similar Hounsfield Unit (HU) intensities with neighboring organs such as the stomach, duodenum, and surrounding adipose tissue.
+Pancreatic cancer is the third leading cause of cancer-related mortality in the United States, with a five-year survival rate of approximately 12\% \cite{Cancerstatistics2023}. This dismal prognosis is largely attributable to late-stage diagnosis, as early pancreatic lesions are often clinically silent. Automated segmentation of the pancreas from abdominal Computed Tomography (CT) scans is therefore a crucial prerequisite for computer-aided diagnosis, surgical planning, and longitudinal disease monitoring. However, the pancreas is notoriously difficult to segment: it occupies a minute fraction ($<$0.5\%) of the total abdominal volume, exhibits high inter-patient shape variability, and shares similar Hounsfield Unit (HU) intensities with neighboring organs such as the stomach, duodenum, and surrounding adipose tissue.
 
 To address these challenges, deep learning approaches have been extensively deployed. The U-Net architecture \cite{unet} and its volumetric extensions---V-Net \cite{vnet} and 3D U-Net \cite{cciccek20163d}---established the encoder-decoder paradigm with skip connections as the \textit{de facto} standard for medical image segmentation. Subsequent work introduced attention mechanisms \cite{attunet} and recurrent saliency transformations \cite{rstn} to guide the network toward the small pancreatic region. More recently, Vision Transformers (ViTs) \cite{dosovitskiy2020image}, adapted for medical imaging through architectures such as TransUNet \cite{transunet}, UNETR \cite{unetr_ref}, and Swin-UNet \cite{swinunet}, have demonstrated strong performance on large-organ segmentation tasks by capturing long-range global dependencies. However, these architectures impose severe GPU memory demands \cite{swin_teaching}, and a common practice is to aggressively downsample input volumes (e.g., from $512 \times 512$ native resolution to $256 \times 256$ or $128 \times 128$) to fit entire 3D volumes or complex multi-layer transformer blocks into memory \cite{bessl}.
 
@@ -72,12 +94,12 @@ The scarcity of voxel-level annotations is a well-documented bottleneck in medic
 
 An overview of our complete framework is shown in Fig.~\ref{fig:pipeline_overview}.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{pipeline_overview.png}
 \caption{Overview of the proposed high-resolution patch-based framework. Native $512 \times 512$ CT slices undergo domain-specific HU windowing, followed by $256 \times 256$ patch extraction that preserves the original voxel resolution. A lightweight 2D U-Net (7.8M parameters) is trained on these patches. During inference, a sliding window with Gaussian blending reconstructs the full-resolution prediction, which is aggregated into a 3D segmentation volume.}
 \label{fig:pipeline_overview}
-\end{figure*}
+\end{figure}
 
 \subsection{Data and Preprocessing}
 We utilized the public Medical Segmentation Decathlon (MSD) Task07\_Pancreas dataset, consisting of 282 contrast-enhanced portal venous phase abdominal CT volumes with voxel-level annotations for both pancreatic parenchyma and tumour. Following standard practice for pancreas segmentation benchmarks, we merged the parenchyma and tumour labels into a single binary foreground class (pancreas vs.\ background). The native axial resolution is $512 \times 512$ pixels with variable slice thickness ranging from 1.0 to 2.5~mm. We partitioned the dataset into 271 volumes for training, 10 for validation, and 4 held-out test volumes (Pancreas 001, 004, 005, 006) for final 3D volumetric evaluation. After extracting 2D axial slices containing pancreatic tissue, the training set yielded 9,798 image-mask pairs.
@@ -98,12 +120,12 @@ Our baseline framework employs a standard 2D U-Net \cite{unet} architecture adap
 
 The decoder pathway mirrors the encoder, utilizing $2 \times 2$ transposed convolutions for upsampling. Skip connections concatenate the corresponding encoder feature maps with the upsampled decoder maps to recover fine spatial details lost during pooling. The final layer is a $1 \times 1$ convolution with a sigmoid activation function, producing a pixel-wise probability map for the pancreatic tissue.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{architecture_unet.png}
 \caption{Architecture of the proposed high-resolution patch-based U-Net. The encoder (blue) progressively downsamples from $256^2$ to $16^2$ while increasing feature channels from 32 to 512. The decoder (red) mirrors this path with transposed convolutions. Skip connections (green, dashed) concatenate encoder features with decoder maps to recover spatial detail. Total parameters: $\sim$7.8M.}
 \label{fig:architecture}
-\end{figure*}
+\end{figure}
 
 \subsection{Architectural Baselines}
 To isolate the effect of resolution versus architecture, we evaluated the following five configurations:
@@ -123,12 +145,12 @@ To address the clinical bottleneck of voxel-level annotation, we investigated th
     \item \textbf{Cross-Pseudo Supervision (CPS) \cite{cps}:} A mutual-learning approach where two identically structured networks with different random initializations generate pseudo-labels to supervise each other.
 \end{enumerate}
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{ssl_framework_overview.png}
 \caption{Overview of the three semi-supervised learning frameworks. (a)~Mean Teacher enforces MSE consistency between student and EMA teacher predictions on unlabeled data. (b)~UA-MT extends the Mean Teacher with Monte Carlo Dropout uncertainty estimation ($T=8$ passes), weighting the consistency loss by teacher confidence $(1-u)$ to suppress learning from ambiguous regions. (c)~Cross-Pseudo Supervision trains two independently initialized networks that mutually generate pseudo-labels.}
 \label{fig:ssl_framework}
-\end{figure*}
+\end{figure}
 
 \subsection{Loss Formulation}
 \subsubsection{Supervised Loss}
@@ -211,12 +233,12 @@ During training, we monitored 2D patch-level IoU on the validation set. For fina
 \subsection{The Impact of Domain-Specific Windowing}
 Our initial experiments isolated the effect of HU windowing using our optimized patch-based model. Table~\ref{tab:hu_windowing} presents the per-case comparison. The standard $[-100, 240]$ window achieved an average Dice of 0.7653, while the pancreas-specific $[-125, 275]$ window improved the average to 0.8147---an absolute gain of +4.94\%. Notably, the improvement is most pronounced on the challenging Pancreas\_005 case (+15.46\% Dice), where the pancreas boundary is particularly ambiguous. This underscores the sensitivity of CNNs to input intensity distributions and validates the importance of domain-specific preprocessing. Fig.~\ref{fig:hu_windowing} visualizes the effect of windowing on a representative CT slice.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{hu_windowing_comparison.png}
 \caption{Visual comparison of HU windowing strategies on a representative axial CT slice. (a)~Raw CT with full HU range showing low contrast. (b)~Standard abdominal window $[-100, 240]$. (c)~Our optimized pancreas-specific window $[-125, 275]$, which better preserves the subtle intensity gradients at the pancreatic boundary, contributing to a +4.94\% absolute Dice improvement.}
 \label{fig:hu_windowing}
-\end{figure*}
+\end{figure}
 
 \begin{table}[!t]
 \centering
@@ -262,19 +284,19 @@ Fig.~\ref{fig:fourier_spectrum} presents the radial power spectrum comparison. T
 
 We further quantified this effect through Sobel edge analysis at the pancreas boundary (Fig.~\ref{fig:fourier_visual}). The mean boundary edge strength decreases from 0.436 at native resolution to 0.345 at $256 \times 256$ ($-$21\%) and 0.269 at $128 \times 128$ ($-$38\%). This progressive degradation of boundary contrast directly explains the catastrophic IoU collapse observed in our ablation study: the pancreas boundary becomes indistinguishable from surrounding tissue at reduced resolutions.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{fourier_radial_spectrum.png}
 \caption{Frequency-domain analysis of resolution loss. (a)~Radial power spectrum showing that downsampling progressively eliminates high-frequency content. The purple shaded region indicates frequencies corresponding to pancreas boundary structures, which overlap with the destroyed bands. (b)~Frequency loss map (native minus $128\times128$) showing energy eliminated across the 2D spectrum. (c)~Spatial information loss (red) overlaid with the pancreas boundary (green), confirming that lost frequencies concentrate at organ boundaries.}
 \label{fig:fourier_spectrum}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{fourier_resolution_comparison.png}
 \caption{Impact of resolution on spatial frequency content and boundary sharpness. Top row: CT slices with pancreas overlay (green). Middle row: 2D Fourier magnitude spectra showing progressive loss of high-frequency energy. Bottom row: Sobel edge maps with pancreas boundary (green contour). Boundary edge strength decreases from 0.436 (native) to 0.269 ($128\times128$), a 38\% reduction that renders the organ boundary indistinguishable from surrounding tissue.}
 \label{fig:fourier_visual}
-\end{figure*}
+\end{figure}
 
 \subsection{Architectural Complexity vs. High-Resolution 2D CNNs}
 Table~\ref{tab:sota_comparison} summarizes the comparison of our framework against established methods. The self-configuring nnU-Net \cite{nnunet}, trained in its \textit{3d\_fullres} configuration for 1000 epochs, achieved an average Dice of 0.823 (single run). Our 2D patch-based CNN achieved $0.809 \pm 0.015$ Dice across four independent runs, with a peak single-run performance of 0.849. This demonstrates that a lightweight 2D CNN preserving the native in-plane resolution of 0.7~mm is highly competitive with nnU-Net's self-configured 3D pipeline, which uses $\sim$12$\times$ more parameters and 10$\times$ longer training. The small gap ($\Delta = 0.014$) is well within the inter-run variance, suggesting comparable performance with dramatically lower computational cost.
@@ -342,12 +364,12 @@ The annotation efficiency trend is visualized in Fig.~\ref{fig:efficiency_curve}
 
 CPS requires a larger labeled set to stabilize. At 10\% and 25\%, mutual supervision between two weakly-initialized networks frequently leads to representation collapse. Only at 50\% did CPS reach a stable IoU of 0.400, though it remained inferior to the consistency-based UA-MT framework. Fig.~\ref{fig:ssl_curves} visualizes the learning dynamics across all three data regimes.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{ssl_all_iou_comparison.png}
 \caption{Validation IoU curves across the 10\%, 25\%, and 50\% labeled data regimes. UA-MT demonstrates rapid convergence and superior stability across all ratios, while CPS exhibits representation collapse at low data regimes (10\% and 25\%).}
 \label{fig:ssl_curves}
-\end{figure*}
+\end{figure}
 
 \begin{figure}[!t]
 \centering
@@ -380,26 +402,26 @@ CPS 50\%   & 0.899 & 0.791 & 0.596 & 0.582 & 0.717$\pm$0.150 \\
 
 Most significantly, on the most challenging case (Pancreas\_005), the UA-MT model trained on 50\% data achieved a Dice of \textbf{0.716}, actually outperforming the fully supervised model (0.696). This finding suggests that uncertainty-aware consistency provides a superior regularizing gradient for ambiguous medical boundaries than voxel-wise labels alone, which can be noisy or inconsistent at low-contrast interfaces. Qualitative multi-slice comparisons across easy, medium, and hard cases are shown in Fig.~\ref{fig:mega_easy}, Fig.~\ref{fig:mega_medium}, and Fig.~\ref{fig:mega_inference_comparison}, respectively.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{mega_inference_comparison_005.png}
 \caption{Qualitative comparison on the challenging Pancreas\_005 case across multiple axial slices. From left to right: Raw CT, Ground Truth (green), Ablation 256$\times$256, Fully Supervised SOTA, UA-MT (25\%), Mean Teacher (50\%), and UA-MT (50\%). The UA-MT (50\%) model consistently recovers complex boundary topologies where fully supervised learning fails.}
 \label{fig:mega_inference_comparison}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{mega_inference_comparison_001.png}
 \caption{Qualitative comparison on the easy case (Pancreas\_001). All models, including the ablation baseline, produce reasonable segmentations when the pancreas presents with high contrast and typical morphology. The supervised SOTA achieves near-perfect overlap.}
 \label{fig:mega_easy}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{mega_inference_comparison_004.png}
 \caption{Qualitative comparison on a medium-difficulty case (Pancreas\_004). While the ablation model struggles with boundary delineation, all SSL and supervised models demonstrate strong segmentation, with UA-MT (50\%) closely matching fully supervised performance.}
 \label{fig:mega_medium}
-\end{figure*}
+\end{figure}
 
 \subsection{Loss Function Ablation: BCE vs. Dice+BCE}
 A common strategy for addressing class imbalance in medical image segmentation is to combine the Dice loss with binary cross-entropy (BCE), as the Dice loss directly optimizes for volumetric overlap regardless of class frequency. We trained our supervised baseline using a combined Dice+BCE loss:
@@ -433,12 +455,12 @@ UA-MT (50\%)       & \textbf{0.603} & 0.167 & 0.000 & \textbf{0.845} \\
 
 Without any retraining or domain adaptation, our champion UA-MT model achieved an average 3D Dice of \textbf{0.603} on the TCIA dataset (median: 0.644), with individual cases reaching as high as 0.845. The SSL model outperformed the fully supervised baseline (0.544 average Dice) by a margin of +5.9\% absolute Dice. This finding is clinically significant: it demonstrates that uncertainty-aware consistency regularization not only improves annotation efficiency but also acts as a domain generalizer, learning more transferable anatomical features than pure supervision. The single failure case (Dice = 0.000) in the UA-MT results was traced to an extreme anatomical variant with atypical pancreatic positioning. Qualitative results on a representative TCIA case are shown in Fig.~\ref{fig:tcia_mega_plot}.
 
-\begin{figure*}[!t]
+\begin{figure}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{tcia_mega_inference_pancreas_ext_052.png}
 \caption{Qualitative zero-shot generalization on the external TCIA dataset (Case 052). Despite the domain shift from different scanners and protocols, both models effectively segment the pancreas. The SSL model (UA-MT) exhibits improved boundary delineation compared to the supervised baseline, particularly in the tail region.}
 \label{fig:tcia_mega_plot}
-\end{figure*}
+\end{figure}
 
 \subsection{3D Spatial Stability Analysis}
 A common failure mode for 2D medical imaging models is ``slice-wise instability,'' where the network produces inconsistent predictions on adjacent axial slices, leading to jagged 3D reconstructions. We quantified the spatial stability of our framework by computing the 2D Dice score for every axial slice within representative test volumes from both datasets.
@@ -487,7 +509,7 @@ These findings collectively advocate for a data-centric paradigm in small-organ 
 \section*{Data and Code Availability}
 The MSD Task07\_Pancreas dataset is publicly available at http://medicaldecathlon.com/. The TCIA Pancreas-CT dataset is available at https://wiki.cancerimagingarchive.net/. Code and trained models will be made available upon acceptance.
 
-\bibliographystyle{IEEEtran}
+\bibliographystyle{elsarticle-num}
 \bibliography{references}
 
 \end{document}

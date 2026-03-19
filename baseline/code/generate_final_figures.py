@@ -36,8 +36,8 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 # 1. Improved U-Net Architecture Diagram
 # ============================================================
 def draw_unet_architecture():
-    fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-    ax.set_xlim(-0.5, 11)
+    fig, ax = plt.subplots(1, 1, figsize=(12, 5))
+    ax.set_xlim(-0.5, 13)
     ax.set_ylim(-0.5, 6.5)
     ax.axis('off')
 
@@ -57,10 +57,10 @@ def draw_unet_architecture():
     ]
 
     decoder_blocks = [
-        (6.4, 1.5, 0.7, 0.9, 256, '32²'),
-        (7.5, 2.5, 0.8, 1.1, 128, '64²'),
-        (8.9, 3.5, 1.0, 1.3, 64, '128²'),
-        (10.3, 4.5, 1.2, 1.5, 32, '256²'),
+        (6.8, 1.5, 0.7, 0.9, 256, '32²'),
+        (8.0, 2.5, 0.8, 1.1, 128, '64²'),
+        (9.4, 3.5, 1.0, 1.3, 64, '128²'),
+        (10.8, 4.5, 1.2, 1.5, 32, '256²'),
     ]
 
     bottleneck = (5.3, 0.5, 0.7, 0.8, 512, '16²')
@@ -100,10 +100,10 @@ def draw_unet_architecture():
 
     # Upsampling arrows (decoder)
     up_pairs = [
-        (6.0, 0.9, 6.4, 1.95),
-        (7.1, 1.95, 7.5, 3.05),
-        (8.3, 3.05, 8.9, 4.15),
-        (9.9, 4.15, 10.3, 5.25),
+        (6.0, 0.9, 6.8, 1.95),
+        (7.5, 1.95, 8.0, 3.05),
+        (8.8, 3.05, 9.4, 4.15),
+        (10.4, 4.15, 10.8, 5.25),
     ]
     for x1, y1, x2, y2 in up_pairs:
         ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
@@ -111,10 +111,10 @@ def draw_unet_architecture():
 
     # Skip connections
     skip_pairs = [
-        (1.4, 5.5, 10.3, 5.5),
-        (2.8, 4.3, 8.9, 4.3),
-        (4.0, 3.2, 7.5, 3.2),
-        (5.1, 2.1, 6.4, 2.1),
+        (1.4, 5.5, 10.8, 5.5),
+        (2.8, 4.3, 9.4, 4.3),
+        (4.0, 3.2, 8.0, 3.2),
+        (5.1, 2.1, 6.8, 2.1),
     ]
     for x1, y1, x2, y2 in skip_pairs:
         ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
@@ -122,11 +122,11 @@ def draw_unet_architecture():
                                     lw=0.8, linestyle='dashed'))
 
     # Output block
-    out_rect = FancyBboxPatch((11.0, 5.0), 0.6, 0.6, boxstyle="round,pad=0.02",
+    out_rect = FancyBboxPatch((12.2, 5.0), 0.6, 0.6, boxstyle="round,pad=0.02",
                                facecolor=out_color, edgecolor='#333', linewidth=0.8, alpha=0.9)
     ax.add_patch(out_rect)
-    ax.text(11.3, 5.3, '1×1\nσ', ha='center', va='center', fontsize=7, fontweight='bold', color='white')
-    ax.annotate('', xy=(11.0, 5.3), xytext=(10.3+1.2, 5.3),
+    ax.text(12.5, 5.3, '1×1\nσ', ha='center', va='center', fontsize=7, fontweight='bold', color='white')
+    ax.annotate('', xy=(12.2, 5.3), xytext=(10.8+1.2, 5.3),
                  arrowprops=dict(arrowstyle='->', color='#555', lw=1.0))
 
     # Input label
@@ -135,7 +135,7 @@ def draw_unet_architecture():
             bbox=dict(boxstyle='round,pad=0.3', facecolor='#ECF0F1', edgecolor='#BDC3C7', lw=0.5))
 
     # Output label
-    ax.text(11.3, 4.5, 'Output\n256×256×1', ha='center', va='center',
+    ax.text(12.5, 4.5, 'Output\n256×256×1', ha='center', va='center',
             fontsize=7, color='#333')
 
     # Legend
@@ -154,7 +154,7 @@ def draw_unet_architecture():
     ax.text(1.6, 4.6, '↓ Pool', fontsize=6, color='#777', rotation=-30)
     ax.text(6.1, 1.3, '↑ Up', fontsize=6, color='#777', rotation=30)
 
-    ax.set_xlim(-0.3, 12.0)
+    ax.set_xlim(-0.3, 13.5)
     ax.set_ylim(-0.8, 6.8)
 
     plt.tight_layout()
